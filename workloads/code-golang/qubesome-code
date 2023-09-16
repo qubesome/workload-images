@@ -8,7 +8,7 @@ PROFILE=work
 CONTAINER_NAME="code-golang-${PROFILE}"
 HOMEDIR="${HOME}/.qubesome/profiles/${PROFILE}/homedir"
 
-if [ -z "$(docker ps -a -q -f name=${CONTAINER_NAME})" ]; then
+if ! "$(docker ps -a -q -f name=${CONTAINER_NAME})"; then
     docker run --rm -d \
         -v /etc/localtime:/etc/localtime:ro \
         -v /etc/machine-id:/etc/machine-id:ro \

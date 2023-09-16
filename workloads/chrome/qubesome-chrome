@@ -13,7 +13,7 @@ CAMERA_NAME="Logitech USB Receiver"
 sc_devs=$(grep -R "${SMART_CARD_NAME}" /sys/class/hidraw/*/device/uevent | cut -d'/' -f 5 | xargs -I{} echo -n "--device /dev/{} ")
 camera_devs=$(grep -R "${CAMERA_NAME}" /sys/class/hidraw/*/device/uevent | cut -d'/' -f 5 | xargs -I{} echo -n "--device /dev/{} ")
 
-if [ -z "$(docker ps -a -q -f name=${CONTAINER_NAME})" ]; then
+if ! "$(docker ps -a -q -f name=${CONTAINER_NAME})"; then
     docker run --rm -d \
         -v /etc/localtime:/etc/localtime:ro \
         -v /etc/machine-id:/etc/machine-id:ro \
