@@ -2,7 +2,7 @@
 
 set -xeo pipefail
 
-IMAGE="${IMAGE:-chrome:latest}"
+IMAGE="${IMAGE:-ghcr.io/qubesome/chrome:latest}"
 PROFILE=${PROFILE:-personal}
 CONTAINER_NAME="chrome-${PROFILE}"
 HOMEDIR="${HOME}/.qubesome/profiles/${PROFILE}/homedir"

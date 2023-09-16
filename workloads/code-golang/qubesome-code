@@ -2,7 +2,7 @@
 
 set -xeo pipefail
 
-IMAGE="${IMAGE:-chrome:latest}"
+IMAGE="${IMAGE:-ghcr.io/qubesome/code-golang:latest}"
 #PROFILE=${PROFILE:-work}
 PROFILE=work
 CONTAINER_NAME="code-golang-${PROFILE}"
