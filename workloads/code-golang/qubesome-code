@@ -4,10 +4,10 @@ set -xeo pipefail
 
 REGISTRY=${REGISTRY:-}
 TAG=${TAG:-latest}
-IMAGE="${REGISTRY}vscode-golang:${TAG}"
+IMAGE="${REGISTRY}code-golang:${TAG}"
 #PROFILE=${PROFILE:-work}
 PROFILE=work
-CONTAINER_NAME="vscode-golang-${PROFILE}"
+CONTAINER_NAME="code-golang-${PROFILE}"
 HOMEDIR="${HOME}/.qubesome/profiles/${PROFILE}/homedir"
 
 if [ -z "$(docker ps -a -q -f name=${CONTAINER_NAME})" ]; then

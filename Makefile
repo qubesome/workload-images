@@ -58,6 +58,11 @@ build-%:
 	cd workloads/$(subst :,/,$*); \
 		$(BUILDER) build -t $(REGISTRY)$(subst :,/,$*):$(TAG) -f Dockerfile .
 
+push:
+	$(MAKE) $(addprefix push-, $(IMAGES))
+	cd workloads/$(subst :,/,$*); \
+		$(BUILDER) push $(REGISTRY)$(subst :,/,$*):$(TAG)
+
 run-%:
 	cd workloads/$(subst :,/,$*); PROFILE=$(PROFILE) REGISTRY=$(REGISTRY) TAG=$(TAG) ./qubesome-*
 
@@ -76,7 +81,7 @@ vscode:
 		-v ~/go:/home/coder/go \
 		-v ~/.config/Code:/home/coder/.config/Code \
 		-v /run/user/1000:/run/user/1000 \
-		$(REGISTRY)vscode:$(TAG) \
+		$(REGISTRY)code-golang:$(TAG) \
 		code --disable-gpu --verbose
 
 .PHONY: cli
