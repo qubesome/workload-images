@@ -1,5 +1,5 @@
-REGISTRY :=
-TAG := latest
+REGISTRY ?= workload-images
+TAG ?= latest
 
 BUILDER := docker
 RUNNER := docker
@@ -56,22 +56,24 @@ build:
 
 build-%:
 	cd workloads/$(subst :,/,$*); \
-		$(BUILDER) build -t $(REGISTRY)$(subst :,/,$*):$(TAG) -f Dockerfile .
+		$(BUILDER) build -t $(REGISTRY)/$(subst :,/,$*):$(TAG) -f Dockerfile .
 
 push:
 	$(MAKE) $(addprefix push-, $(IMAGES))
+
+push-%: build-%
 	cd workloads/$(subst :,/,$*); \
-		$(BUILDER) push $(REGISTRY)$(subst :,/,$*):$(TAG)
+		$(BUILDER) push $(REGISTRY)/$(subst :,/,$*):$(TAG)
 
 run-%:
-	cd workloads/$(subst :,/,$*); PROFILE=$(PROFILE) REGISTRY=$(REGISTRY) TAG=$(TAG) ./qubesome-*
+	cd workloads/$(subst :,/,$*); PROFILE=$(PROFILE) REGISTRY=$(REGISTRY)/ TAG=$(TAG) ./qubesome-*
 
 .PHONY: chrome
 chrome:
 	$(RUNNER) run $(COMMON) $(RUNNER_GUI_ARGS) $(MAP_HOST_FONTS) $(SOUND) $(YUBIKEY) $(CAMERA) --name chrome \
     	-v "${HOME}/Downloads:/home/chrome/Downloads" \
 		-v ~/.config/google-chrome:/home/chrome/.config/google-chrome \
-		$(REGISTRY)google-chrome:$(TAG) \
+		$(REGISTRY)/google-chrome:$(TAG) \
 		google-chrome
 
 .PHONY: vscode
@@ -81,7 +83,7 @@ vscode:
 		-v ~/go:/home/coder/go \
 		-v ~/.config/Code:/home/coder/.config/Code \
 		-v /run/user/1000:/run/user/1000 \
-		$(REGISTRY)code-golang:$(TAG) \
+		$(REGISTRY)/code-golang:$(TAG) \
 		code --disable-gpu --verbose
 
 .PHONY: cli
@@ -95,7 +97,7 @@ cli:
 		-v ~/.oh-my-zsh:/home/coder/.oh-my-zsh \
 		-v ~/.zshrc:/home/coder/.zshrc \
 		-v ~/.ssh/known_hosts:/home/coder/.ssh/known_hosts \
-		$(REGISTRY)git:$(TAG) \
+		$(REGISTRY)/git:$(TAG) \
 		zsh
 
 .PHONY: slack
@@ -104,5 +106,5 @@ slack:
 		-v ~/snap/slack/current/.config:/home/slacker/.config \
 		-v ~/snap/slack/current/.themes:/home/slacker/.themes \
 		-v ~/snap/slack/current/.share:/home/slacker/.share \
-		$(REGISTRY)slack:$(TAG) \
+		$(REGISTRY)/slack:$(TAG) \
 		slack
