@@ -1,9 +1,21 @@
 FROM registry.opensuse.org/opensuse/leap:15.5
 
+# Try to align base dependencies to optimise layer caching
+# across workloads.
 RUN zypper --non-interactive refresh && \
-	zypper install -y \
-        curl \
+    zypper update -y && \
+    zypper install -y \
         shadow \
+	awk \
+	curl \
+        # sound
+	pipewire-alsa pipewire alsa-utils \
+        # fonts
+        unicode-emoji liberation-fonts \
+        xorg-x11-fonts xorg-x11-fonts-converted xorg-x11-fonts-core xorg-x11-fonts-legacy \
+        adobe-sourcesans3-fonts adobe-sourcesanspro-fonts adobe-sourceserifpro-fonts
+
+RUN zypper install -y \
         make \
         zsh \
         git \
@@ -17,9 +29,7 @@ RUN curl https://packages.microsoft.com/keys/microsoft.asc -O && \
 	zypper addrepo https://packages.microsoft.com/yumrepos/vscode vscode
 
 RUN zypper install -y \
-        code \
-        powerline-fonts unicode-emoji liberation-fonts \
-        xorg-x11-fonts xorg-x11-fonts-converted xorg-x11-fonts-core
+        code
 
 RUN useradd --uid 1000 -m -U coder
 

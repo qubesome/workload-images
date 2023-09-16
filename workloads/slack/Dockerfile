@@ -1,33 +1,35 @@
 FROM registry.opensuse.org/opensuse/leap:15.5
 
+# Try to align base dependencies to optimise layer caching
+# across workloads.
 RUN zypper --non-interactive refresh && \
 	zypper update -y && \
-    zypper install -y \
+	zypper install -y \
         shadow \
-        # curl to download slack/key
-        curl \
-        # Dependencies to run Slack
+		awk \
+		curl \
+        # sound
+		pipewire-alsa pipewire alsa-utils \
+        # fonts
+        unicode-emoji liberation-fonts \
+        xorg-x11-fonts xorg-x11-fonts-converted xorg-x11-fonts-core xorg-x11-fonts-legacy \
+        adobe-sourcesans3-fonts adobe-sourcesanspro-fonts adobe-sourceserifpro-fonts
+
+# slack specific dependencies
+RUN zypper install -y \
         mozilla-nss libasound2
 
-ARG SLACK_VERSION=4.33.90
+ARG SLACK_VERSION=4.34.120
 ENV SLACK_URL="https://downloads.slack-edge.com/releases/linux/${SLACK_VERSION}/prod/x64/slack-${SLACK_VERSION}-0.1.el8.x86_64.rpm"
-ENV SLACK_PUB_KEY_URL="https://slack.com/gpg/slack_pubkey.gpg"
+ENV SLACK_PUB_KEY_URL="https://slack.com/gpg/slack_pubkey_20230710.gpg"
 
 RUN curl -o /tmp/slack.pub -L "${SLACK_PUB_KEY_URL}" && \
-    rpm --import /tmp/slack.pub
-RUN curl -o /tmp/slack.rpm -L "${SLACK_URL}"
-# RUN rpm --checksig /tmp/slack.rpm
-# TODO: Validate RPM
-
-RUN zypper --gpg-auto-import-keys --no-gpg-checks --non-interactive install -y /tmp/slack.rpm && \
-    rm /tmp/slack.{pub,rpm}
-
-# Install fonts (inc emoji) so the look and feel is consistent
-# on any target machine.
-RUN zypper install -y \
-       unicode-emoji liberation-fonts \
-       xorg-x11-fonts xorg-x11-fonts-converted xorg-x11-fonts-core xorg-x11-fonts-legacy \
-       adobe-sourcesans3-fonts adobe-sourcesanspro-fonts adobe-sourceserifpro-fonts
+    rpm --import /tmp/slack.pub && rm /tmp/slack.pub
+    
+RUN curl -o /tmp/slack.rpm -L "${SLACK_URL}" && \
+    rpm --checksig /tmp/slack.rpm && \
+    zypper --non-interactive install -y /tmp/slack.rpm && \
+    rm /tmp/slack.rpm
 
 RUN useradd --uid 1000 -m -U slacker
 
