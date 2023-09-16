@@ -49,6 +49,10 @@ SOUND := -v /run/user/1000/pipewire-0:/run/user/1000/pipewire-0 \
 			--device /dev/snd \
 			--group-add audio 
 
+GIT_FILES := -v ~/.gitconfig:/home/coder/.gitconfig \
+				-v ~/.gitconfig-work:/home/coder/.gitconfig-work \
+				-v ~/.gitignore:/home/coder/.gitignore
+
 IMAGES=$(shell find . -mindepth 3 -maxdepth 3 -type f -name 'Dockerfile' | sort -u | cut -f 3 -d'/')
 
 build:
@@ -70,7 +74,7 @@ run-%:
 
 .PHONY: chrome
 chrome:
-	$(RUNNER) run $(COMMON) $(RUNNER_GUI_ARGS) $(MAP_HOST_FONTS) $(SOUND) $(YUBIKEY) $(CAMERA) --name chrome \
+	$(RUNNER) run $(COMMON) $(RUNNER_GUI_ARGS) $(MAP_HOST_FONTS) $(SOUND) $(YUBIKEY) $(CAMERA) --name chrome-test \
     	-v "${HOME}/Downloads:/home/chrome/Downloads" \
 		-v ~/.config/google-chrome:/home/chrome/.config/google-chrome \
 		$(REGISTRY)/google-chrome:$(TAG) \
@@ -78,31 +82,30 @@ chrome:
 
 .PHONY: vscode
 vscode:
-	$(RUNNER) run $(NO_INTERNET) $(COMMON) $(RUNNER_GUI_ARGS) $(YUBIKEY) --name vscode \
+	$(RUNNER) run $(NO_INTERNET) $(COMMON) $(RUNNER_GUI_ARGS) $(YUBIKEY) --name code-test \
 		-v ~/git:/home/coder/git \
 		-v ~/go:/home/coder/go \
 		-v ~/.config/Code:/home/coder/.config/Code \
 		-v /run/user/1000:/run/user/1000 \
+		$(GIT_FILES) \
 		$(REGISTRY)/code-golang:$(TAG) \
 		code --disable-gpu --verbose
 
 .PHONY: cli
 cli:
-	$(RUNNER) run --read-only $(COMMON_IT) $(YUBIKEY) --name vscode \
+	$(RUNNER) run --read-only $(COMMON_IT) $(YUBIKEY) --name cli-test \
 		-v ~/git:/home/coder/git \
 		-v ~/go:/home/coder/go \
-		-v ~/.gitconfig:/home/coder/.gitconfig \
-		-v ~/.gitconfig-work:/home/coder/.gitconfig-work \
-		-v ~/.gitignore:/home/coder/.gitignore \
+		$(GIT_FILES) \
 		-v ~/.oh-my-zsh:/home/coder/.oh-my-zsh \
 		-v ~/.zshrc:/home/coder/.zshrc \
 		-v ~/.ssh/known_hosts:/home/coder/.ssh/known_hosts \
-		$(REGISTRY)/git:$(TAG) \
+		$(REGISTRY)/cli:$(TAG) \
 		zsh
 
 .PHONY: slack
 slack:
-	$(RUNNER) run $(COMMON) $(RUNNER_GUI_ARGS) $(MAP_HOST_FONTS) --name slack \
+	$(RUNNER) run $(COMMON) $(RUNNER_GUI_ARGS) $(MAP_HOST_FONTS) --name slack-test \
 		-v ~/snap/slack/current/.config:/home/slacker/.config \
 		-v ~/snap/slack/current/.themes:/home/slacker/.themes \
 		-v ~/snap/slack/current/.share:/home/slacker/.share \
