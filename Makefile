@@ -69,9 +69,6 @@ push-%: build-%
 	cd workloads/$(subst :,/,$*); \
 		$(BUILDER) push $(REGISTRY)/$(subst :,/,$*):$(TAG)
 
-run-%:
-	cd workloads/$(subst :,/,$*); PROFILE=$(PROFILE) REGISTRY=$(REGISTRY)/ TAG=$(TAG) ./qubesome-*
-
 .PHONY: chrome
 chrome:
 	$(RUNNER) run $(COMMON) $(RUNNER_GUI_ARGS) $(MAP_HOST_FONTS) $(SOUND) $(YUBIKEY) $(CAMERA) --name chrome-test \
