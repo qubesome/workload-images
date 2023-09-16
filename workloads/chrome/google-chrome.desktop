@@ -1,0 +1,21 @@
+[Desktop Entry]
+Version=1.0
+Name=Google Chrome (Personal)
+GenericName=Web Browser
+Comment=Access the Internet
+Exec=/bin/sh -c "PROFILE='personal' ${HOME}/.local/bin/qubesome-chrome %U"
+StartupNotify=true
+Terminal=false
+Icon=google-chrome
+Type=Application
+Categories=Network;WebBrowser;
+Actions=new-window;new-private-window;
+
+[Desktop Action new-window]
+Name=New Window
+Exec=/bin/sh -c "PROFILE='personal' ${HOME}/.local/bin/qubesome-chrome"
+
+[Desktop Action new-private-window]
+Name=New Incognito Window
+Exec=/bin/sh -c "PROFILE='personal' ${HOME}/.local/bin/qubesome-chrome --incognito"
+MimeType=x-scheme-handler/unknown;x-scheme-handler/about;application/pdf;application/rdf+xml;application/rss+xml;application/xhtml+xml;application/xhtml_xml;application/xml;image/gif;image/jpeg;image/png;image/webp;text/html;text/xml;x-scheme-handler/http;x-scheme-handler/https;
