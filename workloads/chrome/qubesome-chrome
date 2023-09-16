@@ -2,9 +2,7 @@
 
 set -xeo pipefail
 
-REGISTRY=${REGISTRY:-}
-TAG=${TAG:-latest}
-IMAGE="${REGISTRY}chrome:${TAG}"
+IMAGE="${IMAGE:-chrome:latest}"
 PROFILE=${PROFILE:-personal}
 CONTAINER_NAME="chrome-${PROFILE}"
 HOMEDIR="${HOME}/.qubesome/profiles/${PROFILE}/homedir"

@@ -2,9 +2,7 @@
 
 set -xeo pipefail
 
-REGISTRY=${REGISTRY:-}
-TAG=${TAG:-latest}
-IMAGE="${REGISTRY}code-golang:${TAG}"
+IMAGE="${IMAGE:-chrome:latest}"
 #PROFILE=${PROFILE:-work}
 PROFILE=work
 CONTAINER_NAME="code-golang-${PROFILE}"
