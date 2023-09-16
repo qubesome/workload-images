@@ -108,3 +108,9 @@ slack:
 		-v ~/snap/slack/current/.share:/home/slacker/.share \
 		$(REGISTRY)/slack:$(TAG) \
 		slack
+
+.PHONY: kali
+kali:
+	$(RUNNER) run $(COMMON_IT) --name kali-test \
+		$(REGISTRY)/kali:$(TAG) \
+		bash
