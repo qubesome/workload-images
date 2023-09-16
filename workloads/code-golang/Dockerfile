@@ -41,3 +41,8 @@ RUN code --install-extension GitHub.copilot && \
     code --install-extension ms-vscode.makefile-tools
 
 VOLUME /home/coder/.config/Code
+
+LABEL org.opencontainers.image.source="https://github.com/qubesome/workload-images" \
+      org.opencontainers.image.ref.name="code-golang" \
+      org.opencontainers.image.title="qubesome Visual Code for Golang workload" \
+      org.opencontainers.image.description="Packages the Visual Code IDE for Golang Development in qubesome."

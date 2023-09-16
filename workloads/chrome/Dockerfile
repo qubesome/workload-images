@@ -25,3 +25,7 @@ RUN useradd --uid 1000 -m -U chrome
 
 USER chrome
 VOLUME /home/chrome/.config/
+LABEL org.opencontainers.image.source="https://github.com/qubesome/workload-images" \
+      org.opencontainers.image.ref.name="chrome" \
+      org.opencontainers.image.title="qubesome chrome workload" \
+      org.opencontainers.image.description="Packages the Google Chrome browser for qubesome."

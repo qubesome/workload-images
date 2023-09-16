@@ -20,3 +20,8 @@ USER coder
 
 VOLUME /home/coder/git
 VOLUME /home/coder/go
+
+LABEL org.opencontainers.image.source="https://github.com/qubesome/workload-images" \
+      org.opencontainers.image.ref.name="cli" \
+      org.opencontainers.image.title="qubesome cli workload" \
+      org.opencontainers.image.description="Packages a CLI environment for qubesome."

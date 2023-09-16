@@ -34,3 +34,8 @@ RUN curl -o /tmp/slack.rpm -L "${SLACK_URL}" && \
 RUN useradd --uid 1000 -m -U slacker
 
 USER slacker
+
+LABEL org.opencontainers.image.source="https://github.com/qubesome/workload-images" \
+      org.opencontainers.image.ref.name="slack" \
+      org.opencontainers.image.title="qubesome Slack workload" \
+      org.opencontainers.image.description="Packages the Slack messaging app for qubesome."
