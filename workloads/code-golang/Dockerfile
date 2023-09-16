@@ -40,11 +40,13 @@ RUN code --install-extension GitHub.copilot && \
     code --install-extension golang.go && \
     code --install-extension ms-vscode.makefile-tools
 
-RUN /usr/bin/go install -v github.com/cweill/gotests/gotests@latest && \
-    /usr/bin/go install -v github.com/haya14busa/goplay/cmd/goplay@latest && \
+RUN /usr/bin/go install -v github.com/cweill/gotests/gotests@v1.6.0 && \
+    /usr/bin/go install -v github.com/haya14busa/goplay/cmd/goplay@v1.0.0 && \
     /usr/bin/go install -v github.com/go-delve/delve/cmd/dlv@latest && \
     /usr/bin/go install -v github.com/golangci/golangci-lint/cmd/golangci-lint@latest && \
-    /usr/bin/go install -v golang.org/x/tools/gopls@latest
+    /usr/bin/go install -v golang.org/x/tools/gopls@latest && \
+    /usr/bin/go install -v github.com/fatih/gomodifytags@v1.16.0 && \
+    /usr/bin/go install -v github.com/josharian/impl@v1.1.0
 
 VOLUME /home/coder/.config/Code
 
