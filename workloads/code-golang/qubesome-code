@@ -26,7 +26,6 @@ if [ -z "$(docker ps -a -q -f name=${CONTAINER_NAME})" ]; then
         -v /var/lib/dbus:/var/lib/dbus -v /run/user/1000/dbus-1:/run/user/1000/dbus-1 \
         -e DISPLAY -e DBUS_SESSION_BUS_ADDRESS -e XDG_RUNTIME_DIR \
         -e XDG_SESSION_ID \
-        --device /dev/hidraw1 --device /dev/hidraw2 -v /dev:/dev \
         -v ~/git:/home/coder/git \
         -v ~/go:/home/coder/go \
         -v "${HOMEDIR}/.config/Code:/home/coder/.config/Code" \
