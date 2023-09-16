@@ -22,6 +22,13 @@ RUN curl -o /tmp/slack.rpm -L "${SLACK_URL}"
 RUN zypper --gpg-auto-import-keys --no-gpg-checks --non-interactive install -y /tmp/slack.rpm && \
     rm /tmp/slack.{pub,rpm}
 
+# Install fonts (inc emoji) so the look and feel is consistent
+# on any target machine.
+RUN zypper install -y \
+       unicode-emoji liberation-fonts \
+       xorg-x11-fonts xorg-x11-fonts-converted xorg-x11-fonts-core xorg-x11-fonts-legacy \
+       adobe-sourcesans3-fonts adobe-sourcesanspro-fonts adobe-sourceserifpro-fonts
+
 RUN useradd --uid 1000 -m -U slacker
 
 USER slacker
