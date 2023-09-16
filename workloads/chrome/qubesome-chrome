@@ -7,6 +7,12 @@ PROFILE=${PROFILE:-personal}
 CONTAINER_NAME="chrome-${PROFILE}"
 HOMEDIR="${HOME}/.qubesome/profiles/${PROFILE}/homedir"
 
+SMART_CARD_NAME=YubiKey
+CAMERA_NAME="Logitech USB Receiver"
+
+sc_devs=$(grep -R "${SMART_CARD_NAME}" /sys/class/hidraw/*/device/uevent | cut -d'/' -f 5 | xargs -I{} echo -n "--device /dev/{} ")
+camera_devs=$(grep -R "${CAMERA_NAME}" /sys/class/hidraw/*/device/uevent | cut -d'/' -f 5 | xargs -I{} echo -n "--device /dev/{} ")
+
 if [ -z "$(docker ps -a -q -f name=${CONTAINER_NAME})" ]; then
     docker run --rm -d \
         -v /etc/localtime:/etc/localtime:ro \
@@ -22,8 +28,8 @@ if [ -z "$(docker ps -a -q -f name=${CONTAINER_NAME})" ]; then
         -e XDG_RUNTIME_DIR -e XDG_SESSION_ID \
         -v /run/user/1000/pipewire-0:/run/user/1000/pipewire-0 \
         --device /dev/snd --group-add audio \
-        --device /dev/hidraw1 --device /dev/hidraw2 -v /dev:/dev --device /dev/hidraw3 \
-        --device /dev/hidraw4 --device /dev/hidraw5 \
+        ${camera_devs} \
+        ${sc_devs} \
         --device=/dev/video0 \
         --group-add video --name chrome \
     	-v "${HOMEDIR}/Downloads:/home/chrome/Downloads" \
