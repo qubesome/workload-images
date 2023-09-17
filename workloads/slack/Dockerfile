@@ -12,6 +12,7 @@ RUN zypper --non-interactive refresh && \
 		pipewire-alsa pipewire alsa-utils \
         # fonts
         unicode-emoji liberation-fonts \
+        twemoji-color-font noto-coloremoji-fonts \
         xorg-x11-fonts xorg-x11-fonts-converted xorg-x11-fonts-core xorg-x11-fonts-legacy \
         adobe-sourcesans3-fonts adobe-sourcesanspro-fonts adobe-sourceserifpro-fonts
 
@@ -38,4 +39,4 @@ USER slacker
 LABEL org.opencontainers.image.source="https://github.com/qubesome/workload-images" \
       org.opencontainers.image.ref.name="slack" \
       org.opencontainers.image.title="qubesome Slack workload" \
-      org.opencontainers.image.description="Packages the Slack messaging app for qubesome."
+      org.opencontainers.image.description="Slack messaging app for qubesome."

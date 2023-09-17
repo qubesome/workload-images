@@ -12,6 +12,7 @@ RUN zypper --non-interactive refresh && \
 		pipewire-alsa pipewire alsa-utils \
         # fonts
         unicode-emoji liberation-fonts \
+        twemoji-color-font noto-coloremoji-fonts \
         xorg-x11-fonts xorg-x11-fonts-converted xorg-x11-fonts-core xorg-x11-fonts-legacy \
         adobe-sourcesans3-fonts adobe-sourcesanspro-fonts adobe-sourceserifpro-fonts
 
@@ -28,4 +29,4 @@ VOLUME /home/chrome/.config/
 LABEL org.opencontainers.image.source="https://github.com/qubesome/workload-images" \
       org.opencontainers.image.ref.name="chrome" \
       org.opencontainers.image.title="qubesome chrome workload" \
-      org.opencontainers.image.description="Packages the Google Chrome browser for qubesome."
+      org.opencontainers.image.description="Google Chrome browser for qubesome."
