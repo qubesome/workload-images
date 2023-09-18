@@ -23,9 +23,14 @@ RUN	curl https://dl.google.com/linux/linux_signing_key.pub -O && \
 RUN zypper install -y google-chrome-stable
 
 RUN useradd --uid 1000 -m -U chrome
+RUN mkdir -p /run/user/1000 && \
+    chown -R 1000:1000 /run/user/1000
 
 USER chrome
+
 VOLUME /home/chrome/.config/
+VOLUME /run/user/1000/
+
 LABEL org.opencontainers.image.source="https://github.com/qubesome/workload-images" \
       org.opencontainers.image.ref.name="chrome" \
       org.opencontainers.image.title="qubesome chrome workload" \

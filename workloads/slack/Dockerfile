@@ -18,7 +18,7 @@ RUN zypper --non-interactive refresh && \
 
 # slack specific dependencies
 RUN zypper install -y \
-        mozilla-nss libasound2
+        mozilla-nss libasound2 xdg-user-dirs xdg-utils
 
 ARG SLACK_VERSION=4.34.120
 ENV SLACK_URL="https://downloads.slack-edge.com/releases/linux/${SLACK_VERSION}/prod/x64/slack-${SLACK_VERSION}-0.1.el8.x86_64.rpm"
@@ -33,8 +33,15 @@ RUN curl -o /tmp/slack.rpm -L "${SLACK_URL}" && \
     rm /tmp/slack.rpm
 
 RUN useradd --uid 1000 -m -U slacker
+RUN mkdir -p /run/user/1000 && \
+    chown -R 1000:1000 /run/user/1000 && \
+    mkdir -p /home/slacker/.config/ && \
+    chown -R 1000:1000 /home/slacker/.config/
 
 USER slacker
+
+VOLUME /home/slacker/.config/
+VOLUME /run/user/1000/
 
 LABEL org.opencontainers.image.source="https://github.com/qubesome/workload-images" \
       org.opencontainers.image.ref.name="slack" \
