@@ -53,20 +53,31 @@ GIT_FILES := -v ~/.gitconfig:/home/coder/.gitconfig \
 				-v ~/.gitconfig-work:/home/coder/.gitconfig-work \
 				-v ~/.gitignore:/home/coder/.gitignore
 
-IMAGES=$(shell find . -mindepth 3 -maxdepth 3 -type f -name 'Dockerfile' | sort -u | cut -f 3 -d'/')
+WORKLOADS=$(shell find workloads -mindepth 2 -maxdepth 2 -type f -name 'Dockerfile' | sort -u | cut -f 2 -d'/')
+TOOLS=$(shell find tools -mindepth 2 -maxdepth 2 -type f -name 'Dockerfile' | sort -u | cut -f 2 -d'/')
 
 build:
-	$(MAKE) $(addprefix build-, $(IMAGES))
+	$(MAKE) $(addprefix build-workload-, $(WORKLOADS))
+	$(MAKE) $(addprefix build-tool-, $(TOOLS))
 
-build-%:
+build-workload-%:
 	cd workloads/$(subst :,/,$*); \
 		$(BUILDER) build -t $(REGISTRY)/$(subst :,/,$*):$(TAG) -f Dockerfile .
 
-push:
-	$(MAKE) $(addprefix push-, $(IMAGES))
+build-tool-%:
+	cd tools/$(subst :,/,$*); \
+		$(BUILDER) build -t $(REGISTRY)/$(subst :,/,$*):$(TAG) -f Dockerfile .
 
-push-%: build-%
+push:
+	$(MAKE) $(addprefix push-workload-, $(WORKLOADS))
+	$(MAKE) $(addprefix push-tool-, $(TOOLS))
+
+push-workload-%: build-workload-%
 	cd workloads/$(subst :,/,$*); \
+		$(BUILDER) push $(REGISTRY)/$(subst :,/,$*):$(TAG)
+
+push-tool-%: build-tool-%
+	cd tools/$(subst :,/,$*); \
 		$(BUILDER) push $(REGISTRY)/$(subst :,/,$*):$(TAG)
 
 .PHONY: chrome
