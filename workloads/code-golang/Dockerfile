@@ -49,6 +49,8 @@ RUN /usr/bin/go install -v github.com/cweill/gotests/gotests@v1.6.0 && \
     /usr/bin/go install -v github.com/fatih/gomodifytags@v1.16.0 && \
     /usr/bin/go install -v github.com/josharian/impl@v1.1.0
 
+ENV USER=coder
+
 VOLUME /home/coder/.config/Code
 
 LABEL org.opencontainers.image.source="https://github.com/qubesome/workload-images" \
