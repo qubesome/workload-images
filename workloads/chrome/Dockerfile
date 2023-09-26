@@ -28,6 +28,8 @@ RUN mkdir -p /run/user/1000 && \
 
 USER chrome
 
+ENV FONTCONFIG_PATH=/etc/fonts
+
 VOLUME /home/chrome/.config/
 VOLUME /run/user/1000/
 
