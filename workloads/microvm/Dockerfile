@@ -4,7 +4,8 @@ RUN apk add \
         openrc \
         util-linux \
         linux-virt \
-        e2fsprogs
+        e2fsprogs \
+        iproute2
 
 # Set up a login terminal on the serial console (ttyS0):
 RUN ln -s agetty /etc/init.d/agetty.ttyS0 && \
@@ -16,4 +17,4 @@ RUN rc-update add devfs boot && \
     rc-update add procfs boot && \
     rc-update add sysfs boot
 
-COPY create_rootfs /usr/local/bin
+COPY create_rootfs setup_taps /usr/local/bin
