@@ -31,8 +31,16 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
       
+      - name: Set current date
+        id: date
+        run: echo "::set-output name=date::$(date +'%Y%m%d')"
+      - name: Set head SHA
+        id: head
+        run: echo "::set-output name=short_sha::$(git rev-parse --short HEAD)"
+
       - name: Build and push images
         run: |
-          REGISTRY="ghcr.io/${GITHUB_REPOSITORY_OWNER}" make push
+          REGISTRY="ghcr.io/${GITHUB_REPOSITORY_OWNER}" TAG="${DATE}-${SHORT_SHA}" make push
         env:
-          TAG: latest          
+          DATE: ${{ steps.date.outputs.date }}
+          SHORT_SHA: ${{ steps.head.outputs.short_sha }}
