@@ -2,6 +2,8 @@ name: release
 
 on:
   push:
+  schedule:
+    - cron:  '0 12 * * 3'
 
 permissions: 
   packages: write # publish images to ghcr.io/repo.
@@ -41,6 +43,7 @@ jobs:
       - name: Build and push images
         run: |
           REGISTRY="ghcr.io/${GITHUB_REPOSITORY_OWNER}" TAG="${DATE}-${SHORT_SHA}" make push
+          REGISTRY="ghcr.io/${GITHUB_REPOSITORY_OWNER}" TAG="latest" make push
         env:
           DATE: ${{ steps.date.outputs.date }}
           SHORT_SHA: ${{ steps.head.outputs.short_sha }}
