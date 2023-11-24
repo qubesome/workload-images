@@ -39,7 +39,8 @@ USER coder
 # Configure VSCode for user
 RUN code --install-extension GitHub.copilot && \
     code --install-extension golang.go && \
-    code --install-extension ms-vscode.makefile-tools
+    code --install-extension ms-vscode.makefile-tools && \
+    code --install-extension timonwong.shellcheck
 
 RUN /usr/bin/go install -v github.com/cweill/gotests/gotests@v1.6.0 && \
     /usr/bin/go install -v github.com/haya14busa/goplay/cmd/goplay@v1.0.0 && \
