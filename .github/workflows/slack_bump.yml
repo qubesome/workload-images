@@ -1,0 +1,25 @@
+---
+name: Slack bump
+
+permissions:
+  pull-requests: write
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 12 * * 2'
+
+jobs:
+  bump:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Patch Slack Dockerfile
+        run: |
+          git config --global user.email "no-reply@github.com"
+          git config --global user.name "Slack patcher"
+
+          ./hack/patch-slack.sh
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
