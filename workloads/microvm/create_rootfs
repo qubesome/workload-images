@@ -1,4 +1,4 @@
-#!/usr/bin/env sh
+#!/usr/bin/env bash
 
 set -euo pipefail
 
@@ -7,11 +7,12 @@ if [ "$#" -ne 2 ]; then
     exit 0
 fi
 
+ROOT_PASS="${ROOT_PASS:-root}"
 TARGET_FILE=$1
 UID=$2
 MOUNT_PATH=$(mktemp -d)
 
-dd if=/dev/zero of="${TARGET_FILE}" bs=1M count=250
+dd if=/dev/zero of="${TARGET_FILE}" bs=1M count=500
 mkfs.ext4 "${TARGET_FILE}"
 
 mount "${TARGET_FILE}" "${MOUNT_PATH}"
@@ -23,20 +24,14 @@ for d in boot bin etc lib root sbin usr; do tar c "/$d" | tar x -C "${MOUNT_PATH
 # tar: Removing leading "/" from member names
 # However, this is just a warning, so you should be able to
 # proceed with the setup process.
-for dir in dev proc run sys var; do mkdir "${MOUNT_PATH}/${dir}"; done
+for dir in dev proc run sys var/run var/tmp var/log; do mkdir -p "${MOUNT_PATH}/${dir}"; done
 
-# NEW_PASS="$(/usr/bin/tr -dc 'A-Za-z0-9!#%&()*+-./:;<=>?@[\]^_{}~' </dev/urandom | head -c 30; echo)"
-NEW_PASS="micro-qube-some"
-echo "root:${NEW_PASS}" | chpasswd
+echo "root:${ROOT_PASS}" | chpasswd
 cp /etc/shadow "${MOUNT_PATH}/etc"
 
 umount "${MOUNT_PATH}"
 rm -rf "${MOUNT_PATH}"
 
 chown "${UID}" "${TARGET_FILE}"
-
-echo
-echo "root password set to: ${NEW_PASS}"
-echo
 
 exit 0

@@ -18,7 +18,7 @@ RUN zypper --non-interactive refresh && \
 
 RUN	curl https://dl.google.com/linux/linux_signing_key.pub -O && \
 	rpm --import linux_signing_key.pub && rm linux_signing_key.pub && \
-	zypper addrepo --refresh http://dl.google.com/linux/chrome/rpm/stable/x86_64 Google-Chrome
+	zypper addrepo --refresh https://dl.google.com/linux/chrome/rpm/stable/x86_64 Google-Chrome
 	
 RUN zypper install -y google-chrome-stable
 

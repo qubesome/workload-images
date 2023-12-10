@@ -1,36 +1,27 @@
-#!/usr/bin/env sh
+#!/usr/bin/env bash
 
 set -euo pipefail
 
-TAP_ISOLATED_DEV="tap1"
-TAP_ISOLATED_CIDR="172.18.0.1/30"
-# TAP_INTERNET_DEV="tap2"
-# TAP_INTERNET_CIDR="172.20.0.1/30"
-# ETH_DEV="wlp0s20f3"
+TAP_DEV="tap1"
+TAP_CIDR="172.18.0.1/30"
+ETH_DEV="${ETH_DEV:-wlp0s20f3}"
 
 # Setup isolated network interface
-ip link del "${TAP_ISOLATED_DEV}" 2> /dev/null || true
-ip tuntap add dev "${TAP_ISOLATED_DEV}" mode tap
-ip addr add "${TAP_INTERNET_CIDR}" dev "${TAP_ISOLATED_DEV}"
-ip link set dev "${TAP_ISOLATED_DEV}" up
+ip link del "${TAP_DEV}" 2> /dev/null || true
+ip tuntap add dev "${TAP_DEV}" mode tap
+ip addr add "${TAP_CIDR}" dev "${TAP_DEV}"
+ip link set dev "${TAP_DEV}" up
 
-# # Setup network interface with internet access
-# ip link del "${TAP_INTERNET_DEV}" 2> /dev/null || true
-# ip tuntap add dev "${TAP_INTERNET_DEV}" mode tap
-# ip addr add "${TAP_INTERNET_CIDR}" dev "${TAP_INTERNET_DEV}"
-# ip link set dev "${TAP_INTERNET_DEV}" up
 
-# # Enable ip forwarding
-# echo 1 > /proc/sys/net/ipv4/ip_forward
-# # Enable proxy_arp
-# echo 1 > "/proc/sys/net/ipv4/conf/${TAP_INTERNET_DEV}/proxy_arp"
+# Enable ip forwarding
+echo 1 > /proc/sys/net/ipv4/ip_forward
 
-# # Set up internet access
-# iptables -t nat -D POSTROUTING -o "${ETH_DEV}" -j MASQUERADE || true
-# iptables -D FORWARD -m conntrack --ctstate RELATED,ESTABLISHED -j ACCEPT || true
-# iptables -D FORWARD -i "${TAP_INTERNET_DEV}" -o "${ETH_DEV}" -j ACCEPT || true
-# iptables -t nat -A POSTROUTING -o "${ETH_DEV}" -j MASQUERADE
-# iptables -I FORWARD 1 -m conntrack --ctstate RELATED,ESTABLISHED -j ACCEPT
-# iptables -I FORWARD 1 -i "${TAP_INTERNET_DEV}" -o "${ETH_DEV}" -j ACCEPT
+# Set up internet access
+iptables -t nat -D POSTROUTING -o "${ETH_DEV}" -j MASQUERADE || true
+iptables -D FORWARD -m conntrack --ctstate RELATED,ESTABLISHED -j ACCEPT || true
+iptables -D FORWARD -i "${TAP_DEV}" -o "${ETH_DEV}" -j ACCEPT || true
+iptables -t nat -A POSTROUTING -o "${ETH_DEV}" -j MASQUERADE
+iptables -I FORWARD 1 -m conntrack --ctstate RELATED,ESTABLISHED -j ACCEPT
+iptables -I FORWARD 1 -i "${TAP_DEV}" -o "${ETH_DEV}" -j ACCEPT
 
 exit 0
