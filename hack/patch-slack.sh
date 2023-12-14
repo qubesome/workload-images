@@ -19,6 +19,7 @@ function main() {
         git checkout -b slack-patch
         git add workloads/slack/Dockerfile
         git commit -m "build: Bump Slack to ${LATEST_VERSION}"
+        git push --set-upstream origin slack-patch
         gh pr create --title "build: Bump Slack to ${LATEST_VERSION}" --body "" --base main
     else
         echo "No new versions found."

@@ -3,6 +3,7 @@ name: Slack bump
 
 permissions:
   pull-requests: write
+  contents: write
 
 on:
   workflow_dispatch:
