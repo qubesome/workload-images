@@ -1,15 +1,11 @@
 FROM registry.opensuse.org/opensuse/leap:15.5
 
-# Try to align base dependencies to optimise layer caching
-# across workloads.
 RUN zypper --non-interactive refresh && \
     zypper update -y && \
     zypper install -y \
         shadow \
 	awk \
 	curl \
-        # sound
-	pipewire-alsa pipewire alsa-utils \
         # fonts
         unicode-emoji liberation-fonts \
         twemoji-color-font noto-coloremoji-fonts \
@@ -42,13 +38,9 @@ RUN code --install-extension GitHub.copilot && \
     code --install-extension ms-vscode.makefile-tools && \
     code --install-extension timonwong.shellcheck
 
-RUN /usr/bin/go install -v github.com/cweill/gotests/gotests@v1.6.0 && \
-    /usr/bin/go install -v github.com/haya14busa/goplay/cmd/goplay@v1.0.0 && \
-    /usr/bin/go install -v github.com/go-delve/delve/cmd/dlv@latest && \
+RUN /usr/bin/go install -v github.com/go-delve/delve/cmd/dlv@latest && \
     /usr/bin/go install -v github.com/golangci/golangci-lint/cmd/golangci-lint@latest && \
-    /usr/bin/go install -v golang.org/x/tools/gopls@latest && \
-    /usr/bin/go install -v github.com/fatih/gomodifytags@v1.16.0 && \
-    /usr/bin/go install -v github.com/josharian/impl@v1.1.0
+    /usr/bin/go install -v golang.org/x/tools/gopls@latest
 
 ENV USER=coder
 
@@ -56,5 +48,5 @@ VOLUME /home/coder/.config/Code
 
 LABEL org.opencontainers.image.source="https://github.com/qubesome/workload-images" \
       org.opencontainers.image.ref.name="code-golang" \
-      org.opencontainers.image.title="qubesome Visual Code for Golang workload" \
-      org.opencontainers.image.description="Visual Code IDE for Golang Development in qubesome."
+      org.opencontainers.image.title="qubesome Visual Code for Golang" \
+      org.opencontainers.image.description="Visual Code IDE for Golang Development."
