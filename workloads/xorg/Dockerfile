@@ -12,6 +12,7 @@ RUN zypper --non-interactive refresh && \
 
 RUN zypper install -y xorg-x11-server-extra
 RUN zypper install -y awesome awesome-shifty
+RUN zypper install -y dbus-1
 
 RUN	zypper install -y \
 		alacritty rofi \
