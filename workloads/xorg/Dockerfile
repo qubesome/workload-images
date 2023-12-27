@@ -15,7 +15,7 @@ RUN zypper install -y awesome awesome-shifty
 RUN zypper install -y dbus-1
 
 RUN	zypper install -y \
-		alacritty rofi \
+		rofi \
 		picom \
 		xbindkeys xclip scrot inotify-tools \
 		unclutter \
