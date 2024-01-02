@@ -20,7 +20,7 @@ RUN zypper --non-interactive refresh && \
 RUN zypper install -y \
         mozilla-nss libasound2 xdg-user-dirs xdg-utils
 
-ARG SLACK_VERSION=4.36.136
+ARG SLACK_VERSION=4.35.132
 ENV SLACK_URL="https://downloads.slack-edge.com/releases/linux/${SLACK_VERSION}/prod/x64/slack-${SLACK_VERSION}-0.1.el8.x86_64.rpm"
 ENV SLACK_PUB_KEY_URL="https://slack.com/gpg/slack_pubkey_20230710.gpg"
 
