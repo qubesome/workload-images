@@ -4,6 +4,7 @@ RUN zypper --non-interactive refresh && \
 	zypper update -y
 
 RUN zypper install -y \
+        alacritty libX11-6 libX11-data libXcursor1 libXrandr2 libXi6 libX11-xcb1 \
         shadow \
         git \
         zsh \
@@ -12,11 +13,24 @@ RUN zypper install -y \
         wget \
         curl
 
-RUN useradd --uid 1000 -m -U coder
+RUN zypper install -y \
+        unicode-emoji liberation-fonts \
+        twemoji-color-font noto-coloremoji-fonts \
+        xorg-x11-fonts xorg-x11-fonts-converted xorg-x11-fonts-core xorg-x11-fonts-legacy \
+        adobe-sourcesans3-fonts adobe-sourcesanspro-fonts adobe-sourceserifpro-fonts
 
-WORKDIR /home/coder/git
+RUN zypper install -y freetype-devel fontconfig-devel libxcb-devel libxkbcommon-devel
+
+RUN useradd --uid 1000 -m -U coder && \
+    mkdir -p /run/user/1000 && \
+    chown 1000:1000 /run/user/1000 && \
+    chmod 0700 /run/user/1000
+
+WORKDIR /home/coder
 
 USER coder
+
+RUN sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 
 VOLUME /home/coder/git
 VOLUME /home/coder/go
