@@ -68,7 +68,7 @@ build-tool-%:
 	cd tools/$(subst :,/,$*); \
 		$(BUILDER) build -t $(REGISTRY)/$(subst :,/,$*):$(TAG) -f Dockerfile .
 
-push:
+push: $(COSIGN)
 	$(MAKE) $(addprefix push-workload-, $(WORKLOADS))
 	$(MAKE) $(addprefix push-tool-, $(TOOLS))
 
