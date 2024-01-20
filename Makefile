@@ -3,7 +3,7 @@ TAG ?= latest
 
 BUILDER ?= docker
 RUNNER ?= docker
-TOOLS_BIN ?= $(realpath build/bin)
+TOOLS_BIN := $(realpath build/bin)
 
 PROFILE ?= personal
 
