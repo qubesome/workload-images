@@ -1,8 +1,9 @@
 REGISTRY ?= workload-images
 TAG ?= latest
 
-BUILDER := docker
-RUNNER := docker
+BUILDER ?= docker
+RUNNER ?= docker
+TOOLS_BIN ?= $(realpath build/bin)
 
 PROFILE ?= personal
 
@@ -55,6 +56,10 @@ GIT_FILES := -v ~/.gitconfig:/home/coder/.gitconfig \
 
 WORKLOADS=$(shell find workloads -mindepth 2 -maxdepth 2 -type f -name 'Dockerfile' | sort -u | cut -f 2 -d'/')
 TOOLS=$(shell find tools -mindepth 2 -maxdepth 2 -type f -name 'Dockerfile' | sort -u | cut -f 2 -d'/')
+
+COSIGN = $(TOOLS_BIN)/cosign
+$(COSIGN):
+	$(call go-install-tool,$(COSIGN),github.com/sigstore/cosign/v2/cmd/cosign@latest)
 
 build:
 	$(MAKE) $(addprefix build-workload-, $(WORKLOADS))
@@ -131,10 +136,6 @@ kali:
 	$(RUNNER) run $(COMMON_IT) --name kali-test \
 		$(REGISTRY)/kali:$(TAG) \
 		bash
-
-COSIGN = $(TOOLS_BIN)/cosign
-$(COSIGN): ## Download cosign locally if not yet downloaded.
-	$(call go-install-tool,$(COSIGN),github.com/sigstore/cosign/v2/cmd/cosign@latest)
 
 define go-install-tool
 @[ -f $(1) ] || { \
