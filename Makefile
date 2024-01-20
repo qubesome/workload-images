@@ -75,10 +75,16 @@ push:
 push-workload-%: build-workload-%
 	cd workloads/$(subst :,/,$*); \
 		$(BUILDER) push $(REGISTRY)/$(subst :,/,$*):$(TAG)
+ifneq ($(TAG),latest)
+	$(COSIGN) sign --yes " $(REGISTRY)/$(subst :,/,$*):$(TAG)"
+endif
 
 push-tool-%: build-tool-%
 	cd tools/$(subst :,/,$*); \
 		$(BUILDER) push $(REGISTRY)/$(subst :,/,$*):$(TAG)
+ifneq ($(TAG),latest)
+	$(COSIGN) sign --yes " $(REGISTRY)/$(subst :,/,$*):$(TAG)"
+endif
 
 .PHONY: chrome
 chrome:
@@ -125,3 +131,15 @@ kali:
 	$(RUNNER) run $(COMMON_IT) --name kali-test \
 		$(REGISTRY)/kali:$(TAG) \
 		bash
+
+COSIGN = $(TOOLS_BIN)/cosign
+$(COSIGN): ## Download cosign locally if not yet downloaded.
+	$(call go-install-tool,$(COSIGN),github.com/sigstore/cosign/v2/cmd/cosign@latest)
+
+define go-install-tool
+@[ -f $(1) ] || { \
+set -e ;\
+echo "Downloading $(2)" ;\
+GOBIN=$(TOOLS_BIN) go install $(2) ;\
+}
+endef

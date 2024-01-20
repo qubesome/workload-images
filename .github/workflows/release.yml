@@ -12,6 +12,7 @@ on:
 permissions: 
   packages: write # publish images to ghcr.io/repo.
   contents: write # add artefacts release.
+  id-token: write # for cosign "keyless".
 
 env: 
   REPO: ghcr.io/${{ github.repository }}
