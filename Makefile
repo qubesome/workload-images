@@ -3,7 +3,6 @@ TAG ?= latest
 
 BUILDER ?= docker
 RUNNER ?= docker
-TOOLS_BIN := $(realpath build/bin)
 
 PROFILE ?= personal
 
@@ -57,10 +56,6 @@ GIT_FILES := -v ~/.gitconfig:/home/coder/.gitconfig \
 WORKLOADS=$(shell find workloads -mindepth 2 -maxdepth 2 -type f -name 'Dockerfile' | sort -u | cut -f 2 -d'/')
 TOOLS=$(shell find tools -mindepth 2 -maxdepth 2 -type f -name 'Dockerfile' | sort -u | cut -f 2 -d'/')
 
-COSIGN = $(TOOLS_BIN)/cosign
-$(COSIGN):
-	$(call go-install-tool,$(COSIGN),github.com/sigstore/cosign/v2/cmd/cosign@latest)
-
 build:
 	$(MAKE) $(addprefix build-workload-, $(WORKLOADS))
 	$(MAKE) $(addprefix build-tool-, $(TOOLS))
@@ -73,7 +68,7 @@ build-tool-%:
 	cd tools/$(subst :,/,$*); \
 		$(BUILDER) build -t $(REGISTRY)/$(subst :,/,$*):$(TAG) -f Dockerfile .
 
-push: $(COSIGN)
+push:
 	$(MAKE) $(addprefix push-workload-, $(WORKLOADS))
 	$(MAKE) $(addprefix push-tool-, $(TOOLS))
 
@@ -81,14 +76,14 @@ push-workload-%: build-workload-%
 	cd workloads/$(subst :,/,$*); \
 		$(BUILDER) push $(REGISTRY)/$(subst :,/,$*):$(TAG)
 ifneq ($(TAG),latest)
-	$(COSIGN) sign --yes " $(REGISTRY)/$(subst :,/,$*):$(TAG)"
+	cosign sign --yes " $(REGISTRY)/$(subst :,/,$*):$(TAG)"
 endif
 
 push-tool-%: build-tool-%
 	cd tools/$(subst :,/,$*); \
 		$(BUILDER) push $(REGISTRY)/$(subst :,/,$*):$(TAG)
 ifneq ($(TAG),latest)
-	$(COSIGN) sign --yes " $(REGISTRY)/$(subst :,/,$*):$(TAG)"
+	cosign sign --yes " $(REGISTRY)/$(subst :,/,$*):$(TAG)"
 endif
 
 .PHONY: chrome
@@ -136,11 +131,3 @@ kali:
 	$(RUNNER) run $(COMMON_IT) --name kali-test \
 		$(REGISTRY)/kali:$(TAG) \
 		bash
-
-define go-install-tool
-@[ -f $(1) ] || { \
-set -e ;\
-echo "Downloading $(2)" ;\
-GOBIN=$(TOOLS_BIN) go install $(2) ;\
-}
-endef
