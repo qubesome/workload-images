@@ -76,14 +76,14 @@ push-workload-%: build-workload-%
 	cd workloads/$(subst :,/,$*); \
 		$(BUILDER) push $(REGISTRY)/$(subst :,/,$*):$(TAG)
 ifneq ($(TAG),latest)
-	cosign sign --yes " $(REGISTRY)/$(subst :,/,$*):$(TAG)"
+	cosign sign --yes "$(REGISTRY)/$(subst :,/,$*):$(TAG)"
 endif
 
 push-tool-%: build-tool-%
 	cd tools/$(subst :,/,$*); \
 		$(BUILDER) push $(REGISTRY)/$(subst :,/,$*):$(TAG)
 ifneq ($(TAG),latest)
-	cosign sign --yes " $(REGISTRY)/$(subst :,/,$*):$(TAG)"
+	cosign sign --yes "$(REGISTRY)/$(subst :,/,$*):$(TAG)"
 endif
 
 .PHONY: chrome
