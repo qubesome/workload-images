@@ -31,6 +31,7 @@ RUN zypper --non-interactive refresh && \
 		typelib-1_0-Gtk-3_0 \
   		typelib-1_0-HarfBuzz-0_0 typelib-1_0-Pango-1_0 \
 		typelib-1_0-Rsvg-2_0 \
+		xauth \
 		rofi \
 		picom \
 		xbindkeys xclip scrot inotify-tools \
