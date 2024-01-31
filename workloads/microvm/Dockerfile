@@ -5,7 +5,8 @@ RUN apk add \
         util-linux \
         linux-virt \
         e2fsprogs \
-        iproute2
+        iproute2 \
+        bash
 
 # Set up a login terminal on the serial console (ttyS0):
 RUN ln -s agetty /etc/init.d/agetty.ttyS0 && \
@@ -18,3 +19,5 @@ RUN rc-update add devfs boot && \
     rc-update add sysfs boot
 
 COPY create_rootfs setup_taps /usr/local/bin
+
+RUN echo "Welcome to the microvm cli!" > /etc/motd

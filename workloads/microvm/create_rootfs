@@ -9,7 +9,7 @@ fi
 
 ROOT_PASS="${ROOT_PASS:-root}"
 TARGET_FILE=$1
-UID=$2
+TARGET_UID=$2
 MOUNT_PATH=$(mktemp -d)
 
 dd if=/dev/zero of="${TARGET_FILE}" bs=1M count=500
@@ -32,6 +32,6 @@ cp /etc/shadow "${MOUNT_PATH}/etc"
 umount "${MOUNT_PATH}"
 rm -rf "${MOUNT_PATH}"
 
-chown "${UID}" "${TARGET_FILE}"
+chown "${TARGET_UID}" "${TARGET_FILE}"
 
 exit 0
