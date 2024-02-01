@@ -28,7 +28,10 @@ RUN curl https://packages.microsoft.com/keys/microsoft.asc -O && \
 RUN zypper install -y \
         code
 
-RUN useradd --uid 1000 -m -U coder
+RUN useradd --uid 1000 -m -U coder && \
+    mkdir -p /run/user/1000 && \
+    chown 1000:1000 /run/user/1000 && \
+    chmod 0700 /run/user/1000
 
 USER coder
 
@@ -44,7 +47,11 @@ RUN /usr/bin/go install -v github.com/go-delve/delve/cmd/dlv@latest && \
 
 ENV USER=coder
 
-VOLUME /home/coder/.config/Code
+RUN mkdir -p /home/coder/git && \
+        mkdir -p /home/coder/go
+
+VOLUME /home/coder/git
+VOLUME /home/coder/go
 
 LABEL org.opencontainers.image.source="https://github.com/qubesome/workload-images" \
       org.opencontainers.image.ref.name="code-golang" \
