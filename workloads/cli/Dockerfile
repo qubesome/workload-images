@@ -1,37 +1,37 @@
 FROM registry.opensuse.org/opensuse/leap:15.5
 
-RUN zypper --non-interactive refresh && \
-	zypper update -y
-
-RUN zypper install -y \
-        alacritty libX11-6 libX11-data libXcursor1 libXrandr2 libXi6 libX11-xcb1 \
+RUN zypper in -y \
+        xorg-x11-fonts xorg-x11-fonts-core xorg-x11-fonts-converted \
+        unicode-emoji liberation-fonts twemoji-color-font noto-coloremoji-fonts \
+        powerline-fonts \
+        alacritty gsettings-desktop-schemas terminator \
         shadow \
         git \
         zsh \
-        gh \
-        gh-zsh-completion \
-        wget \
-        curl
-
-RUN zypper install -y \
-        unicode-emoji liberation-fonts \
-        twemoji-color-font noto-coloremoji-fonts \
-        xorg-x11-fonts xorg-x11-fonts-converted xorg-x11-fonts-core xorg-x11-fonts-legacy \
-        adobe-sourcesans3-fonts adobe-sourcesanspro-fonts adobe-sourceserifpro-fonts
-
-RUN zypper install -y freetype-devel fontconfig-devel libxcb-devel libxkbcommon-devel
+        gh gh-zsh-completion \
+        yubikey-manager yubikey-personalization gnupg ykpers libyubikey0 pcsc-ccid pcsc-lite libpcsclite1 \
+        openssh \
+        wget curl && \
+        zypper cc -a && \
+        rm -rf /tmp/* /var/tmp/* /usr/share/doc/* \
+                /var/log/* /usr/lib/sysimage/rpm/* /var/cache/zypp/* \
+                /var/log/zypp/* /usr/share/man/*
 
 RUN useradd --uid 1000 -m -U coder && \
     mkdir -p /run/user/1000 && \
     chown 1000:1000 /run/user/1000 && \
     chmod 0700 /run/user/1000
 
-WORKDIR /home/coder
-
 USER coder
 
-RUN sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+RUN mkdir /home/coder/.ssh
+COPY --chown=1000:1000 --chmod=700 known_hosts /home/coder/.ssh/
 
+RUN sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+COPY --chown=0:0 --chmod=755 \
+        entrypoint /usr/local/bin/
+
+WORKDIR /home/coder
 VOLUME /home/coder/git
 VOLUME /home/coder/go
 
@@ -39,3 +39,5 @@ LABEL org.opencontainers.image.source="https://github.com/qubesome/workload-imag
       org.opencontainers.image.ref.name="cli" \
       org.opencontainers.image.title="qubesome cli workload" \
       org.opencontainers.image.description="CLI environment for qubesome."
+
+ENTRYPOINT "/usr/local/bin/entrypoint"
