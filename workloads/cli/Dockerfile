@@ -11,11 +11,14 @@ RUN zypper in -y \
         gh gh-zsh-completion \
         yubikey-manager yubikey-personalization gnupg ykpers libyubikey0 pcsc-ccid pcsc-lite libpcsclite1 \
         openssh \
-        wget curl && \
+        wget curl tar gzip vim \
+        podman-remote && \
         zypper cc -a && \
         rm -rf /tmp/* /var/tmp/* /usr/share/doc/* \
                 /var/log/* /usr/lib/sysimage/rpm/* /var/cache/zypp/* \
                 /var/log/zypp/* /usr/share/man/*
+
+RUN ln -s /usr/bin/podman-remote /usr/bin/podman
 
 RUN useradd --uid 1000 -m -U coder && \
     mkdir -p /run/user/1000 && \
@@ -25,7 +28,7 @@ RUN useradd --uid 1000 -m -U coder && \
 USER coder
 
 RUN mkdir /home/coder/.ssh
-COPY --chown=1000:1000 --chmod=700 known_hosts /home/coder/.ssh/
+COPY --chown=1000:1000 --chmod=700 known_hosts config /home/coder/.ssh/
 
 RUN sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 COPY --chown=0:0 --chmod=755 \
