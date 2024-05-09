@@ -36,7 +36,8 @@ RUN zypper --non-interactive refresh && \
 		picom \
 		xbindkeys xclip scrot inotify-tools \
 		unclutter \
-		feh && \
+		feh \
+		leftwm && \
 		zypper -n clean -a && \
 		rm -rf /tmp/* /var/tmp/* /var/log/* /usr/share/doc/packages/* /usr/lib/sysimage/rpm/*
 
