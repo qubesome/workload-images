@@ -37,6 +37,10 @@ RUN zypper --non-interactive refresh && \
 		xbindkeys xclip scrot inotify-tools \
 		unclutter \
 		feh \
+		Mesa-demo-x \
+		VirtualGL \
+		hostname \
+		alacritty \
 		leftwm && \
 		zypper -n clean -a && \
 		rm -rf /tmp/* /var/tmp/* /var/log/* /usr/share/doc/packages/* /usr/lib/sysimage/rpm/*
