@@ -33,25 +33,26 @@ RUN useradd --uid 1000 -m -U coder && \
     chown 1000:1000 /run/user/1000 && \
     chmod 0700 /run/user/1000
 
+ENV GOBIN=/home/coder/go/bin
+RUN mkdir -p /home/coder/git && \
+        mkdir -p /home/coder/go
+
+RUN /usr/bin/go install -v github.com/go-delve/delve/cmd/dlv@latest && \
+    /usr/bin/go install -v github.com/golangci/golangci-lint/cmd/golangci-lint@latest && \
+    /usr/bin/go install -v golang.org/x/tools/gopls@latest && \
+    rm -rf /root/.cache/go-build && \
+    rm -rf /root/go/pkg/*
+
 USER coder
+
+VOLUME /home/coder/git
+VOLUME /home/coder/go
 
 # Configure VSCode for user
 RUN code --install-extension GitHub.copilot && \
     code --install-extension golang.go && \
     code --install-extension ms-vscode.makefile-tools && \
     code --install-extension timonwong.shellcheck
-
-RUN /usr/bin/go install -v github.com/go-delve/delve/cmd/dlv@latest && \
-    /usr/bin/go install -v github.com/golangci/golangci-lint/cmd/golangci-lint@latest && \
-    /usr/bin/go install -v golang.org/x/tools/gopls@latest
-
-ENV USER=coder
-
-RUN mkdir -p /home/coder/git && \
-        mkdir -p /home/coder/go
-
-VOLUME /home/coder/git
-VOLUME /home/coder/go
 
 LABEL org.opencontainers.image.source="https://github.com/qubesome/workload-images" \
       org.opencontainers.image.ref.name="code-golang" \
