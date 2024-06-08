@@ -18,8 +18,8 @@ RUN zypper install -y \
         git \
         gh \
         gh-zsh-completion \
-        go1.21 \
-        go1.21-race
+        go1.22 \
+        go1.22-race
 
 RUN curl https://packages.microsoft.com/keys/microsoft.asc -O && \
 	rpm --import microsoft.asc && rm microsoft.asc && \
