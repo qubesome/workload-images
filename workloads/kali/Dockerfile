@@ -7,7 +7,7 @@ LABEL org.opencontainers.image.source="https://github.com/qubesome/workload-imag
 
 RUN apt update -y && \
       apt install -y kali-linux-core kali-tools-top10 \
-                  openvpn net-tools inetutils-ping \
+                  openvpn net-tools inetutils-ping firefox \
                   libx11-6 libxcursor1 libxrandr2 libxi6 libx11-xcb1 libx11-6 \
                   terminator alacritty zsh && \
       apt clean
