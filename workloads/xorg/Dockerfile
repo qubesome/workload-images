@@ -41,10 +41,13 @@ RUN zypper --non-interactive refresh && \
 		VirtualGL \
 		hostname \
 		alacritty \
-		leftwm && \
+		tini && \
 		zypper -n clean -a && \
 		rm -rf /tmp/* /var/tmp/* /var/log/* /usr/share/doc/packages/* /usr/lib/sysimage/rpm/*
 
+# The builder stage is mostly used to get the latest source from awesomewm
+# and compile it, without adding development tools and libs into the final
+# xorg image.
 FROM base as builder
 
 COPY --from=registry.opensuse.org/opensuse/tumbleweed /usr/lib/sysimage/rpm/* /usr/lib/sysimage/rpm
@@ -84,5 +87,8 @@ USER xorg-user
 
 ENV FONTCONFIG_PATH=/etc/fonts
 
+COPY dbus.config /etc/
 VOLUME /home/xorg-user/.config/
 VOLUME /run/user/1000/
+
+ENTRYPOINT ["/usr/sbin/tini", "--"]
