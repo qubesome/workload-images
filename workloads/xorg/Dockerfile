@@ -41,7 +41,8 @@ RUN zypper --non-interactive refresh && \
 		VirtualGL \
 		hostname \
 		alacritty \
-		tini && \
+		tini \
+		notification-daemon nemo libgtk-4-1 gsettings-desktop-schemas && \
 		zypper -n clean -a && \
 		rm -rf /tmp/* /var/tmp/* /var/log/* /usr/share/doc/packages/* /usr/lib/sysimage/rpm/*
 
@@ -83,12 +84,15 @@ RUN useradd --uid 1000 -m -U xorg-user
 RUN mkdir -p /run/user/1000 && \
     chown -R 1000:1000 /run/user/1000
 
+COPY org.freedesktop.Notifications.service /usr/share/dbus-1/services/
+
 USER xorg-user
 
 ENV FONTCONFIG_PATH=/etc/fonts
+ENV DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/1000/bus
 
-COPY dbus.config /etc/
 VOLUME /home/xorg-user/.config/
 VOLUME /run/user/1000/
+VOLUME /data
 
 ENTRYPOINT ["/usr/sbin/tini", "--"]
