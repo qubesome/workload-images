@@ -1,4 +1,4 @@
-FROM registry.opensuse.org/opensuse/leap:15.5
+FROM registry.opensuse.org/opensuse/leap:15.6
 
 RUN zypper in -y \
         xorg-x11-fonts xorg-x11-fonts-core xorg-x11-fonts-converted \

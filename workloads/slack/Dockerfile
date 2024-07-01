@@ -1,4 +1,4 @@
-FROM registry.opensuse.org/opensuse/leap:15.5
+FROM registry.opensuse.org/opensuse/leap:15.6
 
 # Try to align base dependencies to optimise layer caching
 # across workloads.

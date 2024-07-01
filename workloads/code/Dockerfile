@@ -1,4 +1,4 @@
-FROM registry.opensuse.org/opensuse/leap:15.5
+FROM registry.opensuse.org/opensuse/leap:15.6
 
 RUN zypper --non-interactive refresh && \
     zypper update -y && \
