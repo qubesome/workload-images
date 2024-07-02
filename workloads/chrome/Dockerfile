@@ -14,7 +14,7 @@ RUN zypper --non-interactive refresh && \
         xorg-x11-fonts xorg-x11-fonts-converted xorg-x11-fonts-core xorg-x11-fonts-legacy \
         adobe-sourcesans3-fonts adobe-sourcesanspro-fonts adobe-sourceserifpro-fonts \
         # Mesa drivers
-        Mesa Mesa-dri Mesa-gallium Mesa-libEGL1 Mesa-libGL1 Mesa-libglapi0 && \
+        Mesa Mesa-dri Mesa-gallium Mesa-libEGL1 Mesa-libGL1 Mesa-libglapi0 \
 		libxkbfile1 libxkbcommon0 && \
 		zypper -n clean -a
 
