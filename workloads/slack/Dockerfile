@@ -1,27 +1,6 @@
-FROM registry.opensuse.org/opensuse/leap:15.6
-
-# Try to align base dependencies to optimise layer caching
-# across workloads.
-RUN zypper --non-interactive refresh && \
-	zypper update -y && \
-	zypper install -y \
-        shadow awk curl \
-        # sound
-		pipewire-alsa pipewire alsa-utils \
-        # fonts
-        unicode-emoji liberation-fonts \
-        twemoji-color-font noto-coloremoji-fonts \
-        xorg-x11-fonts xorg-x11-fonts-converted xorg-x11-fonts-core xorg-x11-fonts-legacy \
-        adobe-sourcesans3-fonts adobe-sourcesanspro-fonts adobe-sourceserifpro-fonts \
-        # Mesa drivers
-        Mesa Mesa-dri Mesa-gallium Mesa-libEGL1 Mesa-libGL1 Mesa-libglapi0 \
-        libxkbfile1 libxkbcommon0 && \
-		zypper -n clean -a
-
-# slack specific dependencies
-RUN zypper install -y \
-        mozilla-nss libasound2 xdg-user-dirs xdg-utils && \
-		zypper -n clean -a
+ARG TAG=latest
+ARG REGISTRY=ghcr.io/qubesome
+FROM ${REGISTRY}/base:${TAG}
 
 ARG SLACK_VERSION=4.39.88
 
@@ -29,13 +8,20 @@ ENV SLACK_URL="https://downloads.slack-edge.com/desktop-releases/linux/x64/${SLA
 ENV SLACK_PUB_KEY_URL="https://slack.com/gpg/slack_pubkey_20230710.gpg"
 
 RUN curl -o /tmp/slack.pub -L "${SLACK_PUB_KEY_URL}" && \
-    rpm --import /tmp/slack.pub && rm /tmp/slack.pub
-    
-RUN curl -o /tmp/slack.rpm -L "${SLACK_URL}" && \
+    rpm --import /tmp/slack.pub && rm /tmp/slack.pub && \
+    curl -o /tmp/slack.rpm -L "${SLACK_URL}" && \
     rpm --checksig /tmp/slack.rpm && \
-    zypper --non-interactive install -y /tmp/slack.rpm && \
-    zypper -n clean -a && \
-    rm /tmp/slack.rpm
+    zypper -n install \
+        mozilla-nss \
+        libasound2 \
+        xdg-user-dirs \
+        xdg-utils && \
+    zypper -n install /tmp/slack.rpm && rm /tmp/slack.rpm && \
+    zypper -n cc -a && \
+    zypper -n rm zypper && \
+    rm -rf /tmp/* /var/tmp/* /var/log/* /usr/share/doc/packages/* \
+            /usr/lib/sysimage/rpm/* /var/cache/zypp/* \
+            /var/log/zypp/* /usr/share/man/* /usr/share/doc/*
 
 RUN useradd --uid 1000 -m -U slacker
 RUN mkdir -p /run/user/1000 && \

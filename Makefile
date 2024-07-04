@@ -62,11 +62,13 @@ build:
 
 build-workload-%:
 	cd workloads/$(subst :,/,$*); \
-		$(BUILDER) build -t $(REGISTRY)/$(subst :,/,$*):$(TAG) -f Dockerfile .
+		$(BUILDER) build --build-arg=REGISTRY=$(REGISTRY) --build-arg=TAG=$(TAG) \
+			-t $(REGISTRY)/$(subst :,/,$*):$(TAG) -f Dockerfile .
 
 build-tool-%:
 	cd tools/$(subst :,/,$*); \
-		$(BUILDER) build -t $(REGISTRY)/$(subst :,/,$*):$(TAG) -f Dockerfile .
+		$(BUILDER) build --build-arg=REGISTRY=$(REGISTRY) --build-arg=TAG=$(TAG) \
+			-t $(REGISTRY)/$(subst :,/,$*):$(TAG) -f Dockerfile .
 
 push:
 	$(MAKE) $(addprefix push-workload-, $(WORKLOADS))

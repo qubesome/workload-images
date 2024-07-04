@@ -1,34 +1,22 @@
-FROM registry.opensuse.org/opensuse/leap:15.6
-
-RUN zypper --non-interactive refresh && \
-	zypper update -y && \
-	zypper install -y \
-        shadow awk curl \
-        # sound
-	pipewire-alsa pipewire alsa-utils \
-        # fonts
-        unicode-emoji liberation-fonts \
-        twemoji-color-font noto-coloremoji-fonts \
-        xorg-x11-fonts xorg-x11-fonts-converted xorg-x11-fonts-core xorg-x11-fonts-legacy \
-        adobe-sourcesans3-fonts adobe-sourcesanspro-fonts adobe-sourceserifpro-fonts \
-        # Mesa drivers
-        Mesa Mesa-dri Mesa-gallium Mesa-libEGL1 Mesa-libGL1 Mesa-libglapi0 \
-	libxkbfile1 libxkbcommon0 && \
-	zypper -n clean -a
-
-RUN zypper install -y \
-        make \
-        zsh \
-        git \
-        gh \
-        gh-zsh-completion
+ARG TAG=latest
+ARG REGISTRY=ghcr.io/qubesome
+FROM ${REGISTRY}/base:${TAG}
 
 RUN curl https://packages.microsoft.com/keys/microsoft.asc -O && \
 	rpm --import microsoft.asc && rm microsoft.asc && \
-	zypper addrepo https://packages.microsoft.com/yumrepos/vscode vscode
-
-RUN zypper install -y \
-        code
+	zypper addrepo https://packages.microsoft.com/yumrepos/vscode vscode && \
+        zypper -n install \
+                code \
+                make \
+                zsh \
+                git \
+                gh \
+                gh-zsh-completion && \
+        zypper -n cc -a && \
+        zypper -n rm zypper && \
+        rm -rf /tmp/* /var/tmp/* /var/log/* /usr/share/doc/packages/* \
+                /usr/lib/sysimage/rpm/* /var/cache/zypp/* \
+                /var/log/zypp/* /usr/share/man/* /usr/share/doc/*
 
 RUN useradd --uid 1000 -m -U coder && \
     mkdir -p /run/user/1000 && \
