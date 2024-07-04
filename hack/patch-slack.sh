@@ -13,7 +13,7 @@ function main() {
         sed -i "s;ARG SLACK_VERSION=.*;ARG SLACK_VERSION=${LATEST_VERSION};g" workloads/slack/Dockerfile
     fi
 
-    if git diff --cached --quiet; then
+    if [[ $(git status --porcelain) ]]; then
         echo "Update to ${LATEST_VERSION}"
         
         git checkout -b slack-patch
