@@ -3,7 +3,7 @@ FROM registry.opensuse.org/opensuse/leap:15.6
 # Try to align base dependencies to optimise layer caching
 # across workloads.
 RUN zypper -n refresh && \
-	zypper -n update && \
+    zypper -n update && \
 	zypper -n install \
         shadow awk curl \
         # sound
@@ -18,7 +18,7 @@ RUN zypper -n refresh && \
 		libxkbfile1 libxkbcommon0 && \
     zypper -n cc -a && \
     rm -rf /tmp/* /var/tmp/* /var/log/* /usr/share/doc/packages/* \
-            /usr/lib/sysimage/rpm/* /var/cache/zypp/* \
+            /var/cache/zypp/* \
             /var/log/zypp/* /usr/share/man/* /usr/share/doc/*
 
 LABEL org.opencontainers.image.source="https://github.com/qubesome/workload-images" \
