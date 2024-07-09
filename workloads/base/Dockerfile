@@ -1,4 +1,4 @@
-FROM registry.opensuse.org/opensuse/leap:15.6
+FROM registry.opensuse.org/opensuse/tumbleweed:latest
 
 # Try to align base dependencies to optimise layer caching
 # across workloads.
@@ -20,6 +20,9 @@ RUN zypper -n refresh && \
     rm -rf /tmp/* /var/tmp/* /var/log/* /usr/share/doc/packages/* \
             /var/cache/zypp/* \
             /var/log/zypp/* /usr/share/man/* /usr/share/doc/*
+
+RUN groupadd -g 491 audio && \
+    groupadd -g 483 video
 
 LABEL org.opencontainers.image.source="https://github.com/qubesome/workload-images" \
     org.opencontainers.image.ref.name="base" \
