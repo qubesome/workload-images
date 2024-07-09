@@ -42,6 +42,8 @@ RUN zypper --non-interactive refresh && \
 		hostname \
 		alacritty \
 		tini \
+		i3 \
+		polybar dunst psmisc \
 		notification-daemon nemo libgtk-4-1 gsettings-desktop-schemas && \
 		zypper -n clean -a && \
 		rm -rf /tmp/* /var/tmp/* /var/log/* /usr/share/doc/packages/* /usr/lib/sysimage/rpm/*
