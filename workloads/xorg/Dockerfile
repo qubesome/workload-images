@@ -86,6 +86,8 @@ RUN useradd --uid 1000 -m -U xorg-user
 RUN mkdir -p /run/user/1000 && \
     chown -R 1000:1000 /run/user/1000
 
+RUN sed -i 's;Name=Alacritty;Name=Xorg profile cli;g' /usr/share/applications/Alacritty.desktop
+
 COPY org.freedesktop.Notifications.service /usr/share/dbus-1/services/
 
 USER xorg-user

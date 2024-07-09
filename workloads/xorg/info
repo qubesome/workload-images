@@ -1,0 +1,7 @@
+#!/bin/bash
+
+DEFAULT_SHELL=${DEFAULT_SHELL:-"/bin/zsh"}
+
+echo "# xorg cli for qubesome profile ${QUBESOME_PROFILE}"
+echo
+exec "${DEFAULT_SHELL}"
