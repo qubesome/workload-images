@@ -9,7 +9,8 @@ RUN zypper -n install \
                 gh gh-zsh-completion \
                 yubikey-manager yubikey-personalization gnupg ykpers libyubikey0 pcsc-ccid pcsc-lite libpcsclite1 \
                 openssh \
-                podman-remote && \
+                podman-remote \
+                neofetch neovim && \
         zypper -n cc -a && \
         zypper -n rm zypper && \
         rm -rf /tmp/* /var/tmp/* /var/log/* /usr/share/doc/packages/* \
