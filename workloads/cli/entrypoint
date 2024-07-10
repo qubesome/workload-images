@@ -1,7 +1,5 @@
 #!/bin/bash
 
-set -eox pipefail
+set -eo pipefail
 
-eval "$(ssh-agent)"
-
-alacritty -e /bin/zsh
+alacritty -e /usr/local/bin/start

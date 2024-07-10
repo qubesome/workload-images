@@ -15,7 +15,7 @@ RUN zypper -n refresh && \
         adobe-sourcesans3-fonts adobe-sourcesanspro-fonts adobe-sourceserifpro-fonts \
         # Mesa drivers
         Mesa Mesa-dri Mesa-gallium Mesa-libEGL1 Mesa-libGL1 Mesa-libglapi0 \
-		libxkbfile1 libxkbcommon0 && \
+		libxkbfile1 libxkbcommon0 libxkbcommon-x11-0 && \
     zypper -n cc -a && \
     rm -rf /tmp/* /var/tmp/* /var/log/* /usr/share/doc/packages/* \
             /var/cache/zypp/* \
