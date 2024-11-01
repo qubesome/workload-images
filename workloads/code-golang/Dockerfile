@@ -10,7 +10,7 @@ RUN curl https://packages.microsoft.com/keys/microsoft.asc -O && \
                 make \
                 zsh \
                 git gh gh-zsh-completion \
-                go1.22 go1.22-race && \
+                go1.23 go1.23-race && \
         zypper -n cc -a && \
         zypper -n rm zypper && \
         rm -rf /tmp/* /var/tmp/* /var/log/* /usr/share/doc/packages/* \
