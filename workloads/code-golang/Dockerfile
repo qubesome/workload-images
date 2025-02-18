@@ -10,7 +10,7 @@ RUN curl https://packages.microsoft.com/keys/microsoft.asc -O && \
                 make \
                 zsh \
                 git gh gh-zsh-completion \
-                go1.23 go1.23-race && \
+                go1.24 go1.24-race && \
         zypper -n cc -a && \
         zypper -n rm zypper && \
         rm -rf /tmp/* /var/tmp/* /var/log/* /usr/share/doc/packages/* \
@@ -22,6 +22,7 @@ RUN useradd --uid 1000 -m -U coder && \
     chown 1000:1000 /run/user/1000 && \
     chmod 0700 /run/user/1000
 
+ENV GOTOOLCHAIN=auto
 ENV GOBIN=/home/coder/go/bin
 RUN mkdir -p /home/coder/git && \
         mkdir -p /home/coder/go
