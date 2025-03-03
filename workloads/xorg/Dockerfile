@@ -1,4 +1,4 @@
-FROM registry.opensuse.org/opensuse/tumbleweed as base
+FROM registry.opensuse.org/opensuse/tumbleweed AS base
 
 RUN zypper --non-interactive refresh && \
 	zypper update -y && \
@@ -52,11 +52,11 @@ RUN zypper --non-interactive refresh && \
 # The builder stage is mostly used to get the latest source from awesomewm
 # and compile it, without adding development tools and libs into the final
 # xorg image.
-FROM base as builder
+FROM base AS builder
 
 COPY --from=registry.opensuse.org/opensuse/tumbleweed /usr/lib/sysimage/rpm/* /usr/lib/sysimage/rpm
 RUN zypper --non-interactive refresh && \
-	zypper install -y \
+	zypper --non-interactive install -y \
 		git make cmake gcc \
 		ImageMagick \
 		lua54-devel \
