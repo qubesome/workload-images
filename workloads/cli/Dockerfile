@@ -2,7 +2,8 @@ ARG TAG=latest
 ARG REGISTRY=ghcr.io/qubesome
 FROM ${REGISTRY}/base:${TAG}
 
-RUN zypper -n install \
+RUN zypper -n refresh && \
+        zypper -n install \
                 powerline-fonts \
                 alacritty gsettings-desktop-schemas terminator \
                 git zsh wget tar gzip vim \

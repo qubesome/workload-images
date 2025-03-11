@@ -4,7 +4,8 @@ FROM ${REGISTRY}/base:${TAG}
 
 RUN	curl https://dl.google.com/linux/linux_signing_key.pub -O && \
 	rpm --import linux_signing_key.pub && rm linux_signing_key.pub && \
-	zypper -n addrepo --refresh https://dl.google.com/linux/chrome/rpm/stable/x86_64 Google-Chrome && \
+	zypper -n refresh && \    
+    zypper -n addrepo --refresh https://dl.google.com/linux/chrome/rpm/stable/x86_64 Google-Chrome && \
     zypper -n install -y google-chrome-stable && \
     zypper -n cc -a && \
     zypper -n rm zypper && \

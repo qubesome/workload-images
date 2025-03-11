@@ -2,7 +2,8 @@ ARG TAG=latest
 ARG REGISTRY=ghcr.io/qubesome
 FROM ${REGISTRY}/base:${TAG}
 
-RUN zypper -n install \
+RUN zypper -n refresh && \
+    zypper -n install \
         discord \
         mozilla-nss \
         libasound2 \
