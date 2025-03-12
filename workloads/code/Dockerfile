@@ -34,6 +34,6 @@ ENV USER=coder
 VOLUME /home/coder/.config/Code
 
 LABEL org.opencontainers.image.source="https://github.com/qubesome/workload-images" \
-      org.opencontainers.image.ref.name="code-golang" \
-      org.opencontainers.image.title="qubesome Visual Code for Golang" \
-      org.opencontainers.image.description="Visual Code IDE for Golang Development."
+      org.opencontainers.image.ref.name="code" \
+      org.opencontainers.image.title="qubesome Visual Code" \
+      org.opencontainers.image.description="Visual Code IDE Development."

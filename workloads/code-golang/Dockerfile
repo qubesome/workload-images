@@ -5,6 +5,7 @@ FROM ${REGISTRY}/base:${TAG}
 RUN curl https://packages.microsoft.com/keys/microsoft.asc -O && \
 	rpm --import microsoft.asc && rm microsoft.asc && \
 	zypper addrepo https://packages.microsoft.com/yumrepos/vscode vscode && \
+        zypper -n refresh && \
         zypper -n install \
                 code \
                 make \

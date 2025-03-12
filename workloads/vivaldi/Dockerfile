@@ -4,6 +4,7 @@ FROM ${REGISTRY}/base:${TAG}
 
 RUN	rpm --import https://repo.vivaldi.com/stable/linux_signing_key.pub && \
     zypper addrepo https://repo.vivaldi.com/stable/vivaldi-suse.repo && \
+    zypper -n refresh && \
     zypper in -y vivaldi-stable && \
     zypper -n cc -a && \
     zypper -n rm zypper && \

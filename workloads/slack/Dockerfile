@@ -11,6 +11,7 @@ RUN curl -o /tmp/slack.pub -L "${SLACK_PUB_KEY_URL}" && \
     rpm --import /tmp/slack.pub && rm /tmp/slack.pub && \
     curl -o /tmp/slack.rpm -L "${SLACK_URL}" && \
     rpm --checksig /tmp/slack.rpm && \
+    zypper -n refresh && \
     zypper -n install \
         mozilla-nss \
         libasound2 \
