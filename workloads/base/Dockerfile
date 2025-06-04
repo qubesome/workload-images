@@ -11,7 +11,7 @@ RUN zypper -n refresh && \
         # fonts
         unicode-emoji liberation-fonts \
         twemoji-color-font google-noto-coloremoji-fonts \
-        xorg-x11-fonts xorg-x11-fonts-converted xorg-x11-fonts-core xorg-x11-fonts-legacy \
+        xorg-x11-fonts xorg-x11-fonts-core xorg-x11-fonts-legacy \
         adobe-sourcesans3-fonts adobe-sourcesanspro-fonts adobe-sourceserifpro-fonts \
         # Mesa drivers
         Mesa Mesa-dri Mesa-gallium Mesa-libEGL1 Mesa-libGL1 \
