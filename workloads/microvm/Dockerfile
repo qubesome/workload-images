@@ -15,8 +15,10 @@ RUN ln -s agetty /etc/init.d/agetty.ttyS0 && \
 # Make sure special file systems are mounted on boot:
 RUN rc-update add devfs boot && \
     rc-update add procfs boot && \
-    rc-update add sysfs boot
+    rc-update add sysfs boot && \
+    rc-update add networking default
 
+COPY interfaces /etc/network
 COPY create_rootfs /usr/local/bin
 
 RUN echo "Welcome to the microvm cli!" > /etc/motd
