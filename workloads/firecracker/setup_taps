@@ -1,0 +1,44 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+# For more information about Firecracker network setup:
+# https://github.com/firecracker-microvm/firecracker/blob/main/docs/network-setup.md
+
+TAP_DEV="${TAP_DEV:-tap1}"
+TAP_CIDR="${TAP_CIDR:-172.20.0.1/30}"
+
+function create_tap() {
+    echo "ensure tap ${TAP_DEV} exists"
+    ip link del "${TAP_DEV}" 2> /dev/null || true
+    ip tuntap add dev "${TAP_DEV}" mode tap
+    ip addr add "${TAP_CIDR}" dev "${TAP_DEV}"
+    ip link set dev "${TAP_DEV}" up
+}
+
+function iptables_setup() {
+    HOST_IFACE=$(ip -j route list default | jq -r '.[0].dev')
+
+    echo "configuring iptable rules on ${HOST_IFACE}"
+    # delete existing rules - ignore errors if they don't exist.
+    iptables -t nat -D POSTROUTING -o "${HOST_IFACE}" -j MASQUERADE || true
+    iptables -D FORWARD -m conntrack --ctstate RELATED,ESTABLISHED -j ACCEPT || true
+    iptables -D FORWARD -i "${TAP_DEV}" -o "${HOST_IFACE}" -j ACCEPT || true
+    # (re-)create rules.
+    iptables -t nat -A POSTROUTING -o "${HOST_IFACE}" -j MASQUERADE
+    iptables -I FORWARD 1 -m conntrack --ctstate RELATED,ESTABLISHED -j ACCEPT
+    iptables -I FORWARD 1 -i "${TAP_DEV}" -o "${HOST_IFACE}" -j ACCEPT
+}
+
+if command -v iptables >/dev/null 2>&1; then
+    # Enable ip forwarding.
+    echo 1 > /proc/sys/net/ipv4/ip_forward
+
+    create_tap
+    iptables_setup
+else
+    echo "ERR: iptables could not be found"
+    exit 1
+fi
+
+exit 0
