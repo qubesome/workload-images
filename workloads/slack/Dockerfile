@@ -2,7 +2,7 @@ ARG TAG=latest
 ARG REGISTRY=ghcr.io/qubesome
 FROM ${REGISTRY}/base:${TAG}
 
-ARG SLACK_VERSION=4.44.60
+ARG SLACK_VERSION=4.43.52
 
 ARG SLACK_URL="https://downloads.slack-edge.com/desktop-releases/linux/x64/${SLACK_VERSION}/slack-${SLACK_VERSION}-0.1.el8.x86_64.rpm"
 ARG SLACK_PUB_KEY_URL="https://slack.com/gpg/slack_pubkey_20240822.gpg"
