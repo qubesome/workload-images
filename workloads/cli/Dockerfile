@@ -43,4 +43,4 @@ LABEL org.opencontainers.image.source="https://github.com/qubesome/workload-imag
       org.opencontainers.image.title="qubesome cli workload" \
       org.opencontainers.image.description="CLI environment for qubesome."
 
-ENTRYPOINT "/usr/local/bin/entrypoint"
+ENTRYPOINT [ "/usr/local/bin/entrypoint" ]
