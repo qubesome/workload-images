@@ -1,0 +1,5 @@
+#!/bin/bash
+
+set -eo pipefail
+
+alacritty -e /usr/local/bin/start
