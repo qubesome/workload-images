@@ -1,0 +1,25 @@
+#!/bin/bash
+
+set -eo pipefail
+
+DEFAULT_SHELL=${DEFAULT_SHELL:-"/bin/zsh"}
+export SSH_AUTH_SOCK="/tmp/ssh-agent.sock"
+
+function launch-or-load-agent {
+  eval $(ssh-agent -s -a "${SSH_AUTH_SOCK}" > /dev/null);
+}
+
+if [ ! -S "${SSH_AUTH_SOCK}" ]; then
+  launch-or-load-agent;
+fi;
+
+SSH_AGENT_PID=$(ps -fC ssh-agent | grep 'ssh-agent.sock' | sed -r 's/^\S+\s+(\S+).*$/\1/'); 
+if [[ $SSH_AGENT_PID =~ [0-9]+ ]]; then
+  # agent is up and running, just export its PID.
+  export SSH_AGENT_PID;
+fi;
+
+echo "# cli within qubesome profile ${QUBESOME_PROFILE}"
+echo
+
+exec "${DEFAULT_SHELL}"
