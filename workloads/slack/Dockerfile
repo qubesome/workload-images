@@ -24,7 +24,8 @@ RUN curl -o /tmp/slack.pub -L "${SLACK_PUB_KEY_URL}" && \
             /usr/lib/sysimage/rpm/* /var/cache/zypp/* \
             /var/log/zypp/* /usr/share/man/* /usr/share/doc/*
 
-RUN useradd --uid 1000 -m -U slacker
+RUN useradd --uid 1000 -m -U slacker && \
+	usermod -aG render slacker
 RUN mkdir -p /run/user/1000 && \
     chown -R 1000:1000 /run/user/1000 && \
     mkdir -p /home/slacker/.config/ && \

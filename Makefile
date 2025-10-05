@@ -14,7 +14,7 @@ build:
 build-workload-%:
 	cd workloads/$(subst :,/,$*); \
 		$(BUILDER) build --build-arg=REGISTRY=$(REGISTRY) --build-arg=TAG=$(TAG) \
-			-t $(REGISTRY)/$(subst :,/,$*):$(TAG) -f Dockerfile .
+			--load -t $(REGISTRY)/$(subst :,/,$*):$(TAG) -f Dockerfile .
 
 build-tool-%:
 	cd tools/$(subst :,/,$*); \

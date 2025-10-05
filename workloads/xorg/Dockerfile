@@ -50,7 +50,11 @@ RUN zypper --non-interactive refresh && \
 		zypper -n clean -a && \
 		rm -rf /tmp/* /var/tmp/* /var/log/* /usr/share/doc/packages/* /usr/lib/sysimage/rpm/*
 
-RUN useradd --uid 1000 -m -U xorg-user
+RUN useradd --uid 1000 -m -U xorg-user && \
+	groupadd -g 482 video && \
+	groupadd -g 485 render && \
+	usermod -aG video xorg-user && \
+	usermod -aG render xorg-user
 RUN mkdir -p /run/user/1000 && \
     chown -R 1000:1000 /run/user/1000
 

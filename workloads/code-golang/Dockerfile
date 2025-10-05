@@ -19,6 +19,7 @@ RUN curl https://packages.microsoft.com/keys/microsoft.asc -O && \
                 /var/log/zypp/* /usr/share/man/* /usr/share/doc/*
 
 RUN useradd --uid 1000 -m -U coder && \
+	usermod -aG render coder && \
     mkdir -p /run/user/1000 && \
     chown 1000:1000 /run/user/1000 && \
     chmod 0700 /run/user/1000
