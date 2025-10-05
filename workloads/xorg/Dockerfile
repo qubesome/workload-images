@@ -54,8 +54,7 @@ RUN useradd --uid 1000 -m -U xorg-user && \
 	groupadd -g 482 video && \
 	groupadd -g 485 render && \
 	usermod -aG video xorg-user && \
-	usermod -aG render xorg-user && \
-	newgrp video && newgrp render
+	usermod -aG render xorg-user
 RUN mkdir -p /run/user/1000 && \
     chown -R 1000:1000 /run/user/1000
 
