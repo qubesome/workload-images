@@ -24,7 +24,7 @@ RUN zypper --non-interactive refresh && \
 		libglib-2_0-0 \
 		libgio-2_0-0 \
 		libxkbcommon-x11-0 \
-		lua54 lua54-lgi lua54-lgi-doc \
+		lua54 \
 		gzip \
 		libnotify-tools \
 		typelib-1_0-Atk-1_0 typelib-1_0-GdkPixbuf-2_0 \
@@ -45,10 +45,54 @@ RUN zypper --non-interactive refresh && \
 		i3 \
 		polybar dunst psmisc \
 		xwayland xwayland-run xwayland-satellite \
-		awesome awesome-branding-openSUSE \
 		notification-daemon nemo libgtk-4-1 gsettings-desktop-schemas && \
 		zypper -n clean -a && \
 		rm -rf /tmp/* /var/tmp/* /var/log/* /usr/share/doc/packages/* /usr/lib/sysimage/rpm/*
+
+# The builder stage is mostly used to get the latest source from awesomewm
+# and compile it, without adding development tools and libs into the final
+# xorg image.
+FROM base AS builder
+
+COPY --from=registry.opensuse.org/opensuse/tumbleweed /usr/lib/sysimage/rpm/* /usr/lib/sysimage/rpm
+RUN zypper --non-interactive refresh && \
+	zypper --non-interactive install -y \
+		git make cmake gcc autoconf \
+		ImageMagick \
+		lua54-devel \
+		libxkbcommon-devel \
+		pango-devel \
+		gdk-pixbuf-devel \
+		libreadline8 gobject-introspection-devel libgirepository-1_0-1 \
+		libcairo2 libffi-devel libglib-2_0-0 xorg-x11-server-Xvfb dbus-1-glib-devel \
+		libxdg-basedir-devel libxkbcommon-x11-devel \
+		xcb xcb-util-devel xcb-util-image-devel \
+		xcb-util-keysyms-devel xcb-util-wm-devel \
+		xcb-util-renderutil-devel \
+		xcb-util-cursor-devel \
+		startup-notification-devel \
+		librsvg-devel && \
+		zypper -n clean -a && \
+		rm -rf /tmp/* /var/tmp/* /var/log/* /usr/share/doc/packages/* /usr/lib/sysimage/rpm/*
+
+# https://github.com/lgi-devs/lgi/issues/346
+RUN git clone --branch fix-glib --single-branch --depth 1 https://github.com/qubesome/lgi.git /src/lgi
+# https://github.com/awesomeWM/awesome/pull/4022
+RUN git clone --branch fix-glib --single-branch --depth 1 https://github.com/qubesome/awesome.git /src/awesome
+
+RUN mkdir -p /out && cd /src/lgi && \
+		make LUA_CFLAGS="-I/usr/include/lua5.4" LUA_LIB="-llua" -C /src/lgi && \
+		make install LUA_VERSION="5.4" DESTDIR=/out && \
+		cp -r /out/usr/local/share/lua/5.4/lgi /usr/share/lua/5.4 && \
+		cp -r /out/usr/local/lib/lua/5.4/lgi /usr/lib64/lua/5.4/
+
+RUN cd /src/awesome && \
+		make -C /src/awesome && \
+		make install DESTDIR=/out
+
+FROM base
+
+COPY --from=builder /out /
 
 RUN useradd --uid 1000 -m -U xorg-user && \
 	groupadd -g 482 video && \
