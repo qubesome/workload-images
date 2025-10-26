@@ -33,6 +33,7 @@ RUN su -l coder && \
     /usr/bin/go install -v github.com/go-delve/delve/cmd/dlv@latest && \
     /usr/bin/go install -v github.com/golangci/golangci-lint/cmd/golangci-lint@latest && \
     /usr/bin/go install -v github.com/golangci/golangci-lint/v2/cmd/golangci-lint@latest && \
+    /usr/bin/go install -v mvdan.cc/gofumpt@v0.9.2 && \
     /usr/bin/go install -v golang.org/x/tools/gopls@latest && \
     su -l root && \
     rm -rf /root/.cache/go-build && \
