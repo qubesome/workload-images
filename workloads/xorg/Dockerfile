@@ -59,7 +59,7 @@ RUN zypper --non-interactive refresh && \
 	zypper --non-interactive install -y \
 		git make cmake gcc autoconf \
 		ImageMagick \
-		lua54-devel \
+		lua54-devel lua54-lgi \
 		libxkbcommon-devel \
 		pango-devel \
 		gdk-pixbuf-devel \
@@ -75,16 +75,8 @@ RUN zypper --non-interactive refresh && \
 		zypper -n clean -a && \
 		rm -rf /tmp/* /var/tmp/* /var/log/* /usr/share/doc/packages/* /usr/lib/sysimage/rpm/*
 
-# https://github.com/lgi-devs/lgi/issues/346
-RUN git clone --branch fix-glib --single-branch --depth 1 https://github.com/qubesome/lgi.git /src/lgi
 # https://github.com/awesomeWM/awesome/pull/4022
 RUN git clone --branch fix-glib --single-branch --depth 1 https://github.com/qubesome/awesome.git /src/awesome
-
-RUN mkdir -p /out && cd /src/lgi && \
-		make LUA_CFLAGS="-I/usr/include/lua5.4" LUA_LIB="-llua" -C /src/lgi && \
-		make install LUA_VERSION="5.4" DESTDIR=/out && \
-		cp -r /out/usr/local/share/lua/5.4/lgi /usr/share/lua/5.4 && \
-		cp -r /out/usr/local/lib/lua/5.4/lgi /usr/lib64/lua/5.4/
 
 RUN cd /src/awesome && \
 		make -C /src/awesome && \
