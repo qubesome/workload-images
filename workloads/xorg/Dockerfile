@@ -60,6 +60,7 @@ RUN zypper --non-interactive refresh && \
 		git make cmake gcc autoconf \
 		ImageMagick \
 		lua54-devel lua54-lgi \
+		awesome \
 		libxkbcommon-devel \
 		pango-devel \
 		gdk-pixbuf-devel \
@@ -75,16 +76,7 @@ RUN zypper --non-interactive refresh && \
 		zypper -n clean -a && \
 		rm -rf /tmp/* /var/tmp/* /var/log/* /usr/share/doc/packages/* /usr/lib/sysimage/rpm/*
 
-# https://github.com/awesomeWM/awesome/pull/4022
-RUN git clone --branch fix-glib --single-branch --depth 1 https://github.com/qubesome/awesome.git /src/awesome
-
-RUN cd /src/awesome && \
-		make -C /src/awesome && \
-		make install DESTDIR=/out
-
 FROM base
-
-COPY --from=builder /out /
 
 RUN useradd --uid 1000 -m -U xorg-user && \
 	groupadd -g 482 video && \
