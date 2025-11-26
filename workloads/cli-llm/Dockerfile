@@ -28,11 +28,14 @@ RUN useradd --uid 1000 -m -U coder && \
 
 USER coder
 
-RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.3/install.sh | bash && \
+# renovate: datasource=github-tags depName=nvm-sh/nvm
+ENV NVM_VERSION=v0.40.3
+RUN curl -o- "https://raw.githubusercontent.com/nvm-sh/nvm/${NVM_VERSION}/install.sh" | bash && \
         . "$HOME/.nvm/nvm.sh" && \
         nvm install 24 && \
         nvm current && \
         npm install -g @anthropic-ai/claude-code && \
+        npm install -g @github/copilot && \
         rm -rf /tmp/node-compile-cache
 
 RUN mkdir /home/coder/.ssh
@@ -49,8 +52,8 @@ VOLUME /home/coder/git
 VOLUME /home/coder/go
 
 LABEL org.opencontainers.image.source="https://github.com/qubesome/workload-images" \
-      org.opencontainers.image.ref.name="claude" \
-      org.opencontainers.image.title="qubesome claude workload" \
-      org.opencontainers.image.description="Claude environment for qubesome."
+      org.opencontainers.image.ref.name="cli-llm" \
+      org.opencontainers.image.title="qubesome cli-llm workload" \
+      org.opencontainers.image.description="cli-llm environment for qubesome."
 
 ENTRYPOINT [ "/usr/local/bin/entrypoint" ]
