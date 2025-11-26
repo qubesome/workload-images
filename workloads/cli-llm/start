@@ -19,7 +19,7 @@ if [[ $SSH_AGENT_PID =~ [0-9]+ ]]; then
   export SSH_AGENT_PID;
 fi;
 
-echo "# cli within qubesome profile ${QUBESOME_PROFILE}"
+echo "# cli-llm within qubesome profile ${QUBESOME_PROFILE}"
 echo
 
 exec "${DEFAULT_SHELL}"
