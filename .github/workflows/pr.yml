@@ -10,7 +10,8 @@ on:
 permissions: {}
 
 env: 
-  REPO: ghcr.io/${{ github.repository }}
+  REGISTRY: ghcr.io/${{ github.repository }}
+  TAG: smoke-test
 
 jobs:
   build-images:
@@ -29,3 +30,11 @@ jobs:
       - name: Build images
         run: |
           make build
+
+      - name: Smoke test binaries
+        run: |
+          docker run "${REGISTRY}/xorg:${TAG}" awesome --version
+          docker run "${REGISTRY}/xorg:${TAG}" i3 --version
+          docker run "${REGISTRY}/code:${TAG}" code --version
+          docker run "${REGISTRY}/chrome:${TAG}" google-chrome --version
+          docker run "${REGISTRY}/vivaldi:${TAG}" vivaldi --version
