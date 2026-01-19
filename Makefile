@@ -14,6 +14,10 @@ ACTION ?= --load
 TARGET_PLATFORMS ?= $(shell docker info --format '{{.ClientInfo.Os}}/{{.ClientInfo.Arch}}')
 SUPPORTED_PLATFORMS = linux/amd64,linux/arm64
 
+# Workloads that do not support arm64:
+AMD64_ONLY = chrome slack obsidian
+$(foreach w,$(AMD64_ONLY),$(eval build-workload-$(w): TARGET_PLATFORMS = linux/amd64))
+
 build: build-workload-base
 	$(MAKE) $(addprefix build-workload-, $(WORKLOADS))
 	$(MAKE) $(addprefix build-tool-, $(TOOLS))
