@@ -12,7 +12,8 @@ RUN zypper -n refresh && \
                 openssh \
                 make \
                 go1.25 go1.25-race \
-                podman-remote && \
+                podman-remote \
+                which && \
         zypper -n cc -a && \
         zypper -n rm zypper && \
         rm -rf /tmp/* /var/tmp/* /var/log/* /usr/share/doc/packages/* \
@@ -20,6 +21,19 @@ RUN zypper -n refresh && \
                 /var/log/zypp/* /usr/share/man/* /usr/share/doc/*
 
 RUN ln -s /usr/bin/podman-remote /usr/bin/podman
+
+WORKDIR /tmp
+
+# renovate: datasource=github-tags depName=entireio/cli
+ENV ENTIRE_VERSION=v0.4.2
+ENV ENTIRE_URL="https://github.com/entireio/cli/releases/download/${ENTIRE_VERSION}"
+RUN curl -fsSLO "${ENTIRE_URL}/checksums.txt" && \
+    curl -fsSLO "${ENTIRE_URL}/entire_linux_amd64.tar.gz" && \
+    grep " entire_linux_amd64.tar.gz\$" checksums.txt | sha256sum -c && \
+    tar -xzf entire_linux_amd64.tar.gz entire && \
+    install -m 0755 entire /usr/local/bin/entire && \
+    entire version && \
+    rm checksums.txt entire_linux_amd64.tar.gz entire
 
 RUN useradd --uid 1000 -m -U coder && \
     mkdir -p /run/user/1000 && \
@@ -34,9 +48,11 @@ RUN curl -o- "https://raw.githubusercontent.com/nvm-sh/nvm/${NVM_VERSION}/instal
         . "$HOME/.nvm/nvm.sh" && \
         nvm install 24 && \
         nvm current && \
-        npm install -g @anthropic-ai/claude-code && \
         npm install -g @github/copilot && \
         rm -rf /tmp/node-compile-cache
+
+# https://code.claude.com/docs/en/setup
+RUN curl -fsSL https://claude.ai/install.sh | bash
 
 RUN mkdir /home/coder/.ssh
 COPY --chown=1000:1000 --chmod=700 known_hosts config /home/coder/.ssh/
