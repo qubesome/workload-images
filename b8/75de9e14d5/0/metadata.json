@@ -1,0 +1,29 @@
+{
+  "cli_version": "0.4.2",
+  "checkpoint_id": "b875de9e14d5",
+  "session_id": "b8dfe0c5-f3f1-437f-9ede-b39dadf54c4d",
+  "strategy": "manual-commit",
+  "created_at": "2026-02-10T22:18:19.393115773Z",
+  "branch": "claude",
+  "checkpoints_count": 2,
+  "files_touched": [
+    "workloads/cli-llm/Dockerfile"
+  ],
+  "agent": "Claude Code",
+  "token_usage": {
+    "input_tokens": 18,
+    "cache_creation_tokens": 6699,
+    "cache_read_tokens": 220542,
+    "output_tokens": 932,
+    "api_call_count": 10
+  },
+  "initial_attribution": {
+    "calculated_at": "2026-02-10T22:18:19.389513336Z",
+    "agent_lines": 0,
+    "human_added": 100,
+    "human_modified": 2,
+    "human_removed": 0,
+    "total_committed": 102,
+    "agent_percentage": 0
+  }
+}
