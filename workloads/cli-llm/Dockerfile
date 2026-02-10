@@ -41,6 +41,7 @@ RUN useradd --uid 1000 -m -U coder && \
     chmod 0700 /run/user/1000
 
 USER coder
+ENV PATH="/home/coder/.local/bin:${PATH}"
 
 # renovate: datasource=github-tags depName=nvm-sh/nvm
 ENV NVM_VERSION=v0.40.3
@@ -52,7 +53,8 @@ RUN curl -o- "https://raw.githubusercontent.com/nvm-sh/nvm/${NVM_VERSION}/instal
         rm -rf /tmp/node-compile-cache
 
 # https://code.claude.com/docs/en/setup
-RUN curl -fsSL https://claude.ai/install.sh | bash
+RUN curl -fsSL https://claude.ai/install.sh | bash && \
+    claude --version
 
 RUN mkdir /home/coder/.ssh
 COPY --chown=1000:1000 --chmod=700 known_hosts config /home/coder/.ssh/
