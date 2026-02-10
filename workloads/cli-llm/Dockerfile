@@ -12,7 +12,8 @@ RUN zypper -n refresh && \
                 openssh \
                 make \
                 go1.25 go1.25-race \
-                podman-remote && \
+                podman-remote \
+                which && \
         zypper -n cc -a && \
         zypper -n rm zypper && \
         rm -rf /tmp/* /var/tmp/* /var/log/* /usr/share/doc/packages/* \
