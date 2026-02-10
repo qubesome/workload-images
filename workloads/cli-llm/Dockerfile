@@ -22,6 +22,19 @@ RUN zypper -n refresh && \
 
 RUN ln -s /usr/bin/podman-remote /usr/bin/podman
 
+WORKDIR /tmp
+
+# renovate: datasource=github-tags depName=entireio/cli
+ENV ENTIRE_VERSION=v0.4.2
+ENV ENTIRE_URL="https://github.com/entireio/cli/releases/download/${ENTIRE_VERSION}"
+RUN curl -fsSLO "${ENTIRE_URL}/checksums.txt" && \
+    curl -fsSLO "${ENTIRE_URL}/entire_linux_amd64.tar.gz" && \
+    grep " entire_linux_amd64.tar.gz\$" checksums.txt | sha256sum -c && \
+    tar -xzf entire_linux_amd64.tar.gz entire && \
+    install -m 0755 entire /usr/local/bin/entire && \
+    entire version && \
+    rm checksums.txt entire_linux_amd64.tar.gz entire
+
 RUN useradd --uid 1000 -m -U coder && \
     mkdir -p /run/user/1000 && \
     chown 1000:1000 /run/user/1000 && \
