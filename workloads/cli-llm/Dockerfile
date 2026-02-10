@@ -35,9 +35,11 @@ RUN curl -o- "https://raw.githubusercontent.com/nvm-sh/nvm/${NVM_VERSION}/instal
         . "$HOME/.nvm/nvm.sh" && \
         nvm install 24 && \
         nvm current && \
-        npm install -g @anthropic-ai/claude-code && \
         npm install -g @github/copilot && \
         rm -rf /tmp/node-compile-cache
+
+# https://code.claude.com/docs/en/setup
+RUN curl -fsSL https://claude.ai/install.sh | bash
 
 RUN mkdir /home/coder/.ssh
 COPY --chown=1000:1000 --chmod=700 known_hosts config /home/coder/.ssh/
