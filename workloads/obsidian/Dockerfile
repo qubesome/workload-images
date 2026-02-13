@@ -3,7 +3,7 @@ ARG REGISTRY=ghcr.io/qubesome
 FROM ${REGISTRY}/base:${TAG}
 
 # renovate: datasource=github-tags depName=obsidianmd/obsidian-releases
-ARG OBSIDIAN_VERSION=v1.11.4
+ARG OBSIDIAN_VERSION=v1.11.7
 
 ARG OBSIDIAN_URL="https://github.com/obsidianmd/obsidian-releases/releases/download/${OBSIDIAN_VERSION}/obsidian_${OBSIDIAN_VERSION#v}_amd64.deb"
 
