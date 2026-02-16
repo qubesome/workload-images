@@ -47,6 +47,7 @@ RUN su -l coder && \
     rm -rf /root/go/pkg/*
 
 USER coder
+ENV PATH="/home/coder/go/bin:${PATH}"
 
 VOLUME /home/coder/git
 VOLUME /home/coder/go
