@@ -36,7 +36,7 @@ ENV GOLANGCI_VERSION=v2.8.0
 # renovate: datasource=github-tags depName=golang/tools
 ENV GOPLS_VERSION=v0.21.0
 # renovate: datasource=github-tags depName=go-delve/delve
-ENV DLV_VERSION=v1.25.2
+ENV DLV_VERSION=v1.26.0
 RUN su -l coder && \
     /usr/bin/go install -v github.com/go-delve/delve/cmd/dlv@${DLV_VERSION} && \
     /usr/bin/go install -v github.com/golangci/golangci-lint/v2/cmd/golangci-lint@${GOLANGCI_VERSION} && \
