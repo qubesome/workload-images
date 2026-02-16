@@ -32,7 +32,7 @@ RUN mkdir -p /home/coder/git && \
 # renovate: datasource=github-tags depName=mvdan/gofumpt
 ENV GOFUMPT_VERSION=v0.9.1
 # renovate: datasource=github-tags depName=golangci/golangci-lint
-ENV GOLANGCI_VERSION=v2.8.0
+ENV GOLANGCI_VERSION=v2.9.0
 # renovate: datasource=github-tags depName=golang/tools
 ENV GOPLS_VERSION=v0.21.0
 # renovate: datasource=github-tags depName=go-delve/delve
