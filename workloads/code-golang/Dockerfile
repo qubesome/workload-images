@@ -34,7 +34,7 @@ ENV GOFUMPT_VERSION=v0.9.2
 # renovate: datasource=github-tags depName=golangci/golangci-lint
 ENV GOLANGCI_VERSION=v2.9.0
 # renovate: datasource=github-tags depName=golang/tools extractVersion=^gopls/(?<version>v?.*)$
-ENV GOPLS_VERSION=v0.21.0
+ENV GOPLS_VERSION=v0.21.1
 # renovate: datasource=github-tags depName=go-delve/delve
 ENV DLV_VERSION=v1.26.0
 RUN su -l coder && \
