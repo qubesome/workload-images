@@ -63,15 +63,16 @@ RUN curl -o- "https://raw.githubusercontent.com/nvm-sh/nvm/${NVM_VERSION}/instal
         npm install -g @github/copilot && \
         rm -rf /tmp/node-compile-cache
 
-# https://code.claude.com/docs/en/setup
-RUN curl -fsSL https://claude.ai/install.sh | bash && \
+# renovate: datasource=npm depName=@anthropic-ai/claude-code
+ENV CLAUDE_VERSION=2.1.68
+RUN . "$HOME/.nvm/nvm.sh" && \
+    npm install -g "@anthropic-ai/claude-code@${CLAUDE_VERSION}" && \
     claude --version
 
 RUN mkdir /home/coder/.ssh
 COPY --chown=1000:1000 --chmod=700 known_hosts config /home/coder/.ssh/
 
-RUN sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" && \
-        echo '. "$HOME/.nvm/nvm.sh"' >> ~/.zshrc
+RUN echo '. "$HOME/.nvm/nvm.sh"' >> ~/.zshrc
 
 COPY --chown=0:0 --chmod=755 \
         entrypoint start /usr/local/bin/

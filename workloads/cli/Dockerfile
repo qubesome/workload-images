@@ -30,7 +30,6 @@ USER coder
 RUN mkdir /home/coder/.ssh
 COPY --chown=1000:1000 --chmod=700 known_hosts config /home/coder/.ssh/
 
-RUN sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 COPY --chown=0:0 --chmod=755 \
         entrypoint start /usr/local/bin/
 
