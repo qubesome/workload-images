@@ -11,7 +11,7 @@ RUN zypper -n refresh && \
                 yubikey-manager yubikey-personalization gnupg ykpers libyubikey0 pcsc-ccid pcsc-lite libpcsclite1 \
                 openssh \
                 make \
-                go1.25 go1.25-race \
+                go1.26 go1.26-race \
                 podman-remote \
                 which && \
         zypper -n cc -a && \
