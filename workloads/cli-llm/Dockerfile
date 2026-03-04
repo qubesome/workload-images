@@ -35,6 +35,17 @@ RUN curl -fsSLO "${ENTIRE_URL}/checksums.txt" && \
     entire version && \
     rm checksums.txt entire_linux_amd64.tar.gz entire
 
+# renovate: datasource=github-releases depName=jdx/mise
+ENV MISE_VERSION=v2026.3.1
+ENV MISE_URL="https://github.com/jdx/mise/releases/download/${MISE_VERSION}"
+RUN curl -fsSLO "${MISE_URL}/SHASUMS256.txt" && \
+    curl -fsSLO "${MISE_URL}/mise-${MISE_VERSION}-linux-x64.tar.gz" && \
+    grep " \./mise-${MISE_VERSION}-linux-x64.tar.gz\$" SHASUMS256.txt | sha256sum -c && \
+    tar -xzf mise-${MISE_VERSION}-linux-x64.tar.gz mise/bin/mise && \
+    install -m 0755 mise/bin/mise /usr/local/bin/mise && \
+    mise --version && \
+    rm -rf SHASUMS256.txt mise-${MISE_VERSION}-linux-x64.tar.gz mise
+
 RUN useradd --uid 1000 -m -U coder && \
     mkdir -p /run/user/1000 && \
     chown 1000:1000 /run/user/1000 && \
