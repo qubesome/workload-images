@@ -11,7 +11,9 @@ RUN zypper -n refresh && \
                 yubikey-manager yubikey-personalization gnupg ykpers libyubikey0 pcsc-ccid pcsc-lite libpcsclite1 \
                 openssh \
                 podman-remote \
-                neofetch neovim && \
+                neofetch neovim \
+                glibc-locale && \
+        locale-gen en_GB.UTF-8 && \
         zypper -n cc -a && \
         zypper -n rm zypper && \
         rm -rf /tmp/* /var/tmp/* /var/log/* /usr/share/doc/packages/* \
