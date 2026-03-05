@@ -14,8 +14,8 @@ RUN zypper -n refresh && \
                 go1.26 go1.26-race \
                 podman-remote \
                 which \
-                glibc-locale && \
-        locale-gen en_GB.UTF-8 && \
+                glibc-i18ndata glibc-locale && \
+        localedef -i en_GB -f UTF-8 en_GB.UTF-8 && \
         zypper -n cc -a && \
         zypper -n rm zypper && \
         rm -rf /tmp/* /var/tmp/* /var/log/* /usr/share/doc/packages/* \
