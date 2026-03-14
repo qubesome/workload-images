@@ -66,7 +66,7 @@ RUN curl -o- "https://raw.githubusercontent.com/nvm-sh/nvm/${NVM_VERSION}/instal
         rm -rf /tmp/node-compile-cache
 
 # renovate: datasource=npm depName=@anthropic-ai/claude-code
-ENV CLAUDE_VERSION=2.1.70
+ENV CLAUDE_VERSION=2.1.71
 RUN . "$HOME/.nvm/nvm.sh" && \
     npm install -g "@anthropic-ai/claude-code@${CLAUDE_VERSION}" && \
     claude --version
