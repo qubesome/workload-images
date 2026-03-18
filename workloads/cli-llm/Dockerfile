@@ -62,7 +62,7 @@ RUN curl -o- "https://raw.githubusercontent.com/nvm-sh/nvm/${NVM_VERSION}/instal
         . "$HOME/.nvm/nvm.sh" && \
         nvm install 24 && \
         nvm current && \
-        npm install -g @github/copilot && \
+        npm install -g @github/copilot @openai/codex && \
         rm -rf /tmp/node-compile-cache
 
 # renovate: datasource=npm depName=@anthropic-ai/claude-code
@@ -70,6 +70,10 @@ ENV CLAUDE_VERSION=2.1.72
 RUN . "$HOME/.nvm/nvm.sh" && \
     npm install -g "@anthropic-ai/claude-code@${CLAUDE_VERSION}" && \
     claude --version
+
+# https://cursor.com/docs/cli/installation
+RUN curl -fsSL https://cursor.com/install | bash && \
+    cursor-agent --version
 
 RUN mkdir /home/coder/.ssh
 COPY --chown=1000:1000 --chmod=700 known_hosts config /home/coder/.ssh/
