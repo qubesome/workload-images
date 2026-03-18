@@ -56,6 +56,10 @@ RUN curl -o- "https://raw.githubusercontent.com/nvm-sh/nvm/${NVM_VERSION}/instal
 RUN curl -fsSL https://claude.ai/install.sh | bash && \
     claude --version
 
+# https://cursor.com/docs/cli/installation
+RUN curl -fsSL https://cursor.com/install | bash && \
+    cursor-agent --version
+
 RUN mkdir /home/coder/.ssh
 COPY --chown=1000:1000 --chmod=700 known_hosts config /home/coder/.ssh/
 
