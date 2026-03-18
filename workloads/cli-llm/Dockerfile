@@ -49,7 +49,7 @@ RUN curl -o- "https://raw.githubusercontent.com/nvm-sh/nvm/${NVM_VERSION}/instal
         . "$HOME/.nvm/nvm.sh" && \
         nvm install 24 && \
         nvm current && \
-        npm install -g @github/copilot && \
+        npm install -g @github/copilot @openai/codex && \
         rm -rf /tmp/node-compile-cache
 
 # https://code.claude.com/docs/en/setup
