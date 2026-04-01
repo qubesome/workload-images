@@ -38,7 +38,7 @@ RUN curl -fsSLO "${ENTIRE_URL}/checksums.txt" && \
     rm checksums.txt entire_linux_amd64.tar.gz entire
 
 # renovate: datasource=github-releases depName=jdx/mise
-ENV MISE_VERSION=v2026.3.13
+ENV MISE_VERSION=v2026.3.14
 ENV MISE_URL="https://github.com/jdx/mise/releases/download/${MISE_VERSION}"
 RUN curl -fsSLO "${MISE_URL}/SHASUMS256.txt" && \
     curl -fsSLO "${MISE_URL}/mise-${MISE_VERSION}-linux-x64.tar.gz" && \
