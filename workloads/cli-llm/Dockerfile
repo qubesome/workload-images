@@ -41,7 +41,8 @@ RUN useradd --uid 1000 -m -U coder && \
     chmod 0700 /run/user/1000
 
 USER coder
-ENV PATH="/home/coder/.local/bin:${PATH}"
+ENV GOBIN="/home/coder/go/bin"
+ENV PATH="/home/coder/.local/bin:${GOBIN}:${PATH}"
 
 # renovate: datasource=github-tags depName=nvm-sh/nvm
 ENV NVM_VERSION=v0.40.4
