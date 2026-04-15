@@ -34,8 +34,7 @@ VOLUME /home/coder/git
 VOLUME /home/coder/.cargo
 
 # Configure VSCode for user
-RUN code --install-extension GitHub.copilot && \
-    code --install-extension rust-lang.rust-analyzer && \
+RUN code --install-extension rust-lang.rust-analyzer && \
     code --install-extension ms-vscode.makefile-tools && \
     code --install-extension timonwong.shellcheck
 

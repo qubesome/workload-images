@@ -53,8 +53,7 @@ VOLUME /home/coder/git
 VOLUME /home/coder/go
 
 # Configure VSCode for user
-RUN code --install-extension GitHub.copilot && \
-    code --install-extension golang.go && \
+RUN code --install-extension golang.go && \
     code --install-extension ms-vscode.makefile-tools && \
     code --install-extension timonwong.shellcheck
 
