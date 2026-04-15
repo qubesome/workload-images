@@ -27,8 +27,7 @@ RUN useradd --uid 1000 -m -U coder && \
 USER coder
 
 # Configure VSCode for user
-RUN code --install-extension GitHub.copilot && \
-    code --install-extension ms-vscode-remote.remote-containers
+RUN code --install-extension ms-vscode-remote.remote-containers
 
 ENV USER=coder
 
