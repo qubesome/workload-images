@@ -62,7 +62,7 @@ RUN mkdir -p /run/user/1000 && \
 
 # For clarity, rename Alacritty at Xorg, so it is easier for users
 # to understand its scope.
-RUN sed -i 's;Name=Alacritty;Name=Xorg profile cli;g' /usr/share/applications/Alacritty.desktop
+RUN sed -i 's;Name=Alacritty;Name=Xorg profile cli;g' /usr/share/applications/org.alacritty.Alacritty.desktop
 
 COPY org.freedesktop.Notifications.service /usr/share/dbus-1/services/
 
