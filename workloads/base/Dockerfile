@@ -6,6 +6,7 @@ RUN zypper -n refresh && \
     zypper -n update && \
 	zypper -n install \
         gawk \
+        jq \
         # sound
 		pipewire-alsa pipewire alsa-utils \
         # fonts
