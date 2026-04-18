@@ -7,6 +7,7 @@ RUN zypper -n refresh && \
                 powerline-fonts \
                 alacritty gsettings-desktop-schemas terminator \
                 git zsh wget tar gzip vim \
+                ripgrep \
                 gh gh-zsh-completion \
                 yubikey-manager yubikey-personalization gnupg ykpers libyubikey0 pcsc-ccid pcsc-lite libpcsclite1 \
                 openssh \
