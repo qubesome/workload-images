@@ -28,7 +28,7 @@ RUN ln -s /usr/bin/podman-remote /usr/bin/podman
 WORKDIR /tmp
 
 # renovate: datasource=github-tags depName=entireio/cli
-ENV ENTIRE_VERSION=v0.5.6
+ENV ENTIRE_VERSION=v0.6.0
 ENV ENTIRE_URL="https://github.com/entireio/cli/releases/download/${ENTIRE_VERSION}"
 RUN curl -fsSLO "${ENTIRE_URL}/checksums.txt" && \
     curl -fsSLO "${ENTIRE_URL}/entire_linux_amd64.tar.gz" && \
