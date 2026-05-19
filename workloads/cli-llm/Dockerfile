@@ -49,6 +49,17 @@ RUN curl -fsSLO "${MISE_URL}/SHASUMS256.txt" && \
     mise --version && \
     rm -rf SHASUMS256.txt mise-${MISE_VERSION}-linux-x64.tar.gz mise
 
+# renovate: datasource=github-releases depName=always-further/nono
+ENV NONO_VERSION=v0.56.0
+ENV NONO_URL="https://github.com/always-further/nono/releases/download/${NONO_VERSION}"
+RUN curl -fsSLO "${NONO_URL}/SHA256SUMS.txt" && \
+    curl -fsSLO "${NONO_URL}/nono-${NONO_VERSION}-x86_64-unknown-linux-gnu.tar.gz" && \
+    grep " nono-${NONO_VERSION}-x86_64-unknown-linux-gnu.tar.gz\$" SHA256SUMS.txt | sha256sum -c && \
+    tar -xzf nono-${NONO_VERSION}-x86_64-unknown-linux-gnu.tar.gz nono && \
+    install -m 0755 nono /usr/local/bin/nono && \
+    nono --version && \
+    rm SHA256SUMS.txt nono-${NONO_VERSION}-x86_64-unknown-linux-gnu.tar.gz nono
+
 RUN useradd --uid 1000 -m -U coder && \
     mkdir -p /run/user/1000 && \
     chown 1000:1000 /run/user/1000 && \
