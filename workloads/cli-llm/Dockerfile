@@ -50,7 +50,7 @@ RUN curl -fsSLO "${MISE_URL}/SHASUMS256.txt" && \
     rm -rf SHASUMS256.txt mise-${MISE_VERSION}-linux-x64.tar.gz mise
 
 # renovate: datasource=github-releases depName=always-further/nono
-ENV NONO_VERSION=v0.56.0
+ENV NONO_VERSION=v0.57.0
 ENV NONO_URL="https://github.com/always-further/nono/releases/download/${NONO_VERSION}"
 RUN curl -fsSLO "${NONO_URL}/SHA256SUMS.txt" && \
     curl -fsSLO "${NONO_URL}/nono-${NONO_VERSION}-x86_64-unknown-linux-gnu.tar.gz" && \
