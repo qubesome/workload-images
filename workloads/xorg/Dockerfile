@@ -24,6 +24,7 @@ RUN zypper --non-interactive refresh && \
 		libglib-2_0-0 \
 		libgio-2_0-0 \
 		libxkbcommon-x11-0 \
+		which \
 		awesome \
 		lua54 \
 		gzip \
