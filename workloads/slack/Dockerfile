@@ -5,9 +5,9 @@ FROM ${REGISTRY}/base:${TAG}
 ARG SLACK_VERSION=4.50.140
 
 ARG SLACK_URL="https://downloads.slack-edge.com/desktop-releases/linux/x64/${SLACK_VERSION}/slack-${SLACK_VERSION}-0.1.el8.x86_64.rpm"
-ARG SLACK_PUB_KEY_URL="https://slack.com/gpg/slack_pubkey_20251016.gpg"
+ARG SLACK_GPG_URL="https://slack.com/gpg/slack_pubkey_20251016.gpg"
 
-RUN curl -o /tmp/slack.pub -L "${SLACK_PUB_KEY_URL}" && \
+RUN curl -o /tmp/slack.pub -L "${SLACK_GPG_URL}" && \
     rpm --import /tmp/slack.pub && rm /tmp/slack.pub && \
     curl -o /tmp/slack.rpm -L "${SLACK_URL}" && \
     rpm --checksig /tmp/slack.rpm && \
