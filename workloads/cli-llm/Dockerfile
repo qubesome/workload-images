@@ -70,7 +70,7 @@ ENV GOBIN="/home/coder/go/bin"
 ENV PATH="/home/coder/.local/bin:${GOBIN}:${PATH}"
 
 # renovate: datasource=github-tags depName=nvm-sh/nvm
-ENV NVM_VERSION=v0.40.5
+ENV NVM_VERSION=v0.40.6
 RUN curl -o- "https://raw.githubusercontent.com/nvm-sh/nvm/${NVM_VERSION}/install.sh" | bash && \
         . "$HOME/.nvm/nvm.sh" && \
         nvm install 24 && \
