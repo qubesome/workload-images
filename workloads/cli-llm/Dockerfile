@@ -75,8 +75,11 @@ RUN curl -o- "https://raw.githubusercontent.com/nvm-sh/nvm/${NVM_VERSION}/instal
         . "$HOME/.nvm/nvm.sh" && \
         nvm install 24 && \
         nvm current && \
+        ln -sfn "$(nvm which current | xargs dirname | xargs dirname)" "$HOME/.nvm/default" && \
         npm install -g @github/copilot @openai/codex && \
         rm -rf /tmp/node-compile-cache
+
+ENV PATH="${PATH}:/home/coder/.nvm/default/bin"
 
 # renovate: datasource=npm depName=@anthropic-ai/claude-code
 ENV CLAUDE_VERSION=2.1.232
