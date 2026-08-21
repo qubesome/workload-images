@@ -6,7 +6,7 @@ RUN zypper --non-interactive refresh && \
         shadow \
 		awk \
         xorg-x11-fonts xorg-x11-fonts-core \
-		xorg-x11-server-extra dbus-1 \
+		xorg-x11-server-extra dbus-1 xdg-dbus-proxy \
 		libxcb1 \
 		libxcb-cursor0 \
 		libxcb-util1 \
