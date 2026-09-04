@@ -16,6 +16,10 @@ RUN zypper -n refresh && \
         adobe-sourcesans3-fonts adobe-sourcesanspro-fonts adobe-sourceserifpro-fonts \
         # Mesa drivers
         Mesa Mesa-dri Mesa-libEGL1 Mesa-libGL1 \
+        # Vulkan loader and the AMD and Intel hardware drivers. Mesa only
+        # brings in the lavapipe software ICD, which leaves GPUs
+        # undiscoverable.
+        libvulkan1 libvulkan_radeon libvulkan_intel \
 		libxkbfile1 libxkbcommon0 libxkbcommon-x11-0 && \
     zypper -n cc -a && \
     rm -rf /tmp/* /var/tmp/* /var/log/* /usr/share/doc/packages/* \
