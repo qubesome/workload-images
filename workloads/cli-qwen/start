@@ -1,0 +1,34 @@
+#!/bin/bash
+
+set -eo pipefail
+
+DEFAULT_SHELL=${DEFAULT_SHELL:-"/bin/zsh"}
+export SSH_AUTH_SOCK="/tmp/ssh-agent.sock"
+
+# The socket path is set with -a, so the shell commands ssh-agent prints are
+# not needed. Failing to start it must not stop the terminal from opening.
+function launch-agent {
+  if ! ssh-agent -s -a "${SSH_AUTH_SOCK}" > /dev/null; then
+    echo "WARN: failed to start ssh-agent" >&2
+  fi
+}
+
+if [ ! -S "${SSH_AUTH_SOCK}" ]; then
+  launch-agent
+fi
+
+# Having no agent is a valid state, so the search must not fail the script.
+SSH_AGENT_PID="$(pgrep -f "ssh-agent .*${SSH_AUTH_SOCK}" | head -n 1 || true)"
+if [[ "${SSH_AGENT_PID}" =~ ^[0-9]+$ ]]; then
+  export SSH_AGENT_PID
+fi
+
+if ! pgrep -x ollama > /dev/null; then
+  ollama serve > /tmp/ollama.log 2>&1 &
+fi;
+
+echo "# cli-qwen within qubesome profile ${QUBESOME_PROFILE}"
+echo "# serving ${OLLAMA_MODEL}, see /tmp/ollama.log for the device in use"
+echo
+
+exec "${DEFAULT_SHELL}"
