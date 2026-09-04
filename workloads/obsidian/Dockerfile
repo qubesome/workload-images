@@ -3,11 +3,11 @@ ARG REGISTRY=ghcr.io/qubesome
 FROM ${REGISTRY}/base:${TAG}
 
 # renovate: datasource=github-tags depName=obsidianmd/obsidian-releases
-ARG OBSIDIAN_VERSION=v1.13.8
+ARG OBSIDIAN_VERSION=v1.13.7
 
 ARG OBSIDIAN_URL="https://github.com/obsidianmd/obsidian-releases/releases/download/${OBSIDIAN_VERSION}/obsidian_${OBSIDIAN_VERSION#v}_amd64.deb"
 
-RUN curl -o /tmp/obsidian.deb -L "${OBSIDIAN_URL}" && \
+RUN curl -fsSL -o /tmp/obsidian.deb "${OBSIDIAN_URL}" && \
     zypper -n refresh && \
     zypper install -y dpkg \
         mozilla-nspr mozilla-nss xdg-user-dirs xdg-utils \
