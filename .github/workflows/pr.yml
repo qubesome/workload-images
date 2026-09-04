@@ -27,14 +27,30 @@ jobs:
       - name: Setup Docker Buildx
         uses: docker/setup-buildx-action@e468171a9de216ec08956ac3ada2f0791b6bd435 # v3.11.1
       
-      - name: Build images
+      # Only the images affected by the changes are built, along with the
+      # images they are built on. Workloads marked .local are never built here.
+      - name: Build affected images
         run: |
-          make build
+          make build-affected
+        env:
+          BASE_REF: ${{ github.event.pull_request.base.sha }}
 
       - name: Smoke test binaries
         run: |
-          docker run "${REGISTRY}/xorg:${TAG}" awesome --version
-          docker run "${REGISTRY}/xorg:${TAG}" i3 --version
-          docker run "${REGISTRY}/code:${TAG}" code --version
-          docker run "${REGISTRY}/chrome:${TAG}" google-chrome --version
-          docker run "${REGISTRY}/vivaldi:${TAG}" vivaldi --version
+          smoke() {
+            image="${REGISTRY}/$1:${TAG}"
+            shift
+
+            if ! docker image inspect "${image}" > /dev/null 2>&1; then
+              echo "skipping ${image}, not affected by this change"
+              return
+            fi
+
+            docker run "${image}" "$@"
+          }
+
+          smoke xorg awesome --version
+          smoke xorg i3 --version
+          smoke code code --version
+          smoke chrome google-chrome --version
+          smoke vivaldi vivaldi --version
