@@ -16,8 +16,6 @@ RUN zypper --non-interactive refresh && \
 		libxcb-xtest0 \
 		libxkbcommon0 \
 		libxdg-basedir1 \
-		xcb-util-xrm-devel \
-		xcb-util-errors-devel \
 		libstartup-notification-1-0 \
 		libcairo2 \
 		libglib-2_0-0 \
