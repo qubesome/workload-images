@@ -40,9 +40,11 @@ for dockerfile in workloads/*/Dockerfile tools/*/Dockerfile; do
 
 	# Images are referenced by name alone, so a name may only be used once
 	# across workloads and tools.
-	if [ -z "${by_name[${name}]:-}" ]; then
-		by_name["${name}"]="${target}"
+	if [ -n "${by_name[${name}]:-}" ]; then
+		echo "image name ${name} is used by both ${by_name[${name}]} and ${target}" >&2
+		exit 1
 	fi
+	by_name["${name}"]="${target}"
 
 	if [ -f "${dir}/.local" ]; then
 		local_only["${target}"]=1

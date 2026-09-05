@@ -5,18 +5,20 @@ BUILDER ?= docker
 RUNNER ?= docker
 
 ALL_WORKLOADS=$(shell find workloads -mindepth 2 -maxdepth 2 -type f -name 'Dockerfile' | sort -u | cut -f 2 -d'/')
-TOOLS=$(shell find tools -mindepth 2 -maxdepth 2 -type f -name 'Dockerfile' | sort -u | cut -f 2 -d'/')
+ALL_TOOLS=$(shell find tools -mindepth 2 -maxdepth 2 -type f -name 'Dockerfile' | sort -u | cut -f 2 -d'/')
 
-# Workloads holding a .local marker are too large for the CI and release
+# Images holding a .local marker are too large for the CI and release
 # cycle. They are never built nor published there, only by build-local.
 LOCAL_WORKLOADS=$(shell find workloads -mindepth 2 -maxdepth 2 -type f -name '.local' | sort -u | cut -f 2 -d'/')
+LOCAL_TOOLS=$(shell find tools -mindepth 2 -maxdepth 2 -type f -name '.local' | sort -u | cut -f 2 -d'/')
 WORKLOADS=$(filter-out $(LOCAL_WORKLOADS),$(ALL_WORKLOADS))
+TOOLS=$(filter-out $(LOCAL_TOOLS),$(ALL_TOOLS))
 
 build:
 	$(MAKE) $(addprefix build-workload-, $(WORKLOADS))
 	$(MAKE) $(addprefix build-tool-, $(TOOLS))
 
-# Builds the .local workloads, along with the images they are built on.
+# Builds the .local images, along with the images they are built on.
 build-local:
 	@hack/affected.sh --local | while read -r target; do \
 		$(MAKE) "build-$$target" || exit 1; \
