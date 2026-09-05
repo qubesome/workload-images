@@ -82,7 +82,7 @@ RUN curl -o- "https://raw.githubusercontent.com/nvm-sh/nvm/${NVM_VERSION}/instal
 ENV PATH="${PATH}:/home/coder/.nvm/default/bin"
 
 # renovate: datasource=npm depName=@anthropic-ai/claude-code
-ENV CLAUDE_VERSION=2.1.250
+ENV CLAUDE_VERSION=2.1.251
 RUN . "$HOME/.nvm/nvm.sh" && \
     npm install -g "@anthropic-ai/claude-code@${CLAUDE_VERSION}" && \
     claude --version
