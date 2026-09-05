@@ -1,6 +1,6 @@
 FROM alpine:latest
 
-RUN apk add bash \
+RUN apk add --no-cache bash \
         iproute2 \
         iptables \
         jq

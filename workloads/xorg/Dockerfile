@@ -11,14 +11,11 @@ RUN zypper --non-interactive refresh && \
 		libxcb-cursor0 \
 		libxcb-util1 \
 		libxcb-keysyms1 \
-		libxcb-icccm4 \ 
+		libxcb-icccm4 \
 		libxcb-xfixes0 \
 		libxcb-xtest0 \
-		libxcb-util1 \
 		libxkbcommon0 \
 		libxdg-basedir1 \
-		xcb-util-xrm-devel \
-		xcb-util-errors-devel \
 		libstartup-notification-1-0 \
 		libcairo2 \
 		libglib-2_0-0 \

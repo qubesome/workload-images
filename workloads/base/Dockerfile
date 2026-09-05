@@ -27,7 +27,7 @@ RUN zypper -n refresh && \
             /var/log/zypp/* /usr/share/man/* /usr/share/doc/*
 
 RUN groupadd -g 491 audio && \
-    groupadd -g 483 video && \
+    groupadd -g 482 video && \
     groupadd -g 485 render
 
 LABEL org.opencontainers.image.source="https://github.com/qubesome/workload-images" \

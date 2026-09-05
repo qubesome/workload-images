@@ -24,7 +24,6 @@ RUN useradd --uid 1000 -m -U coder && \
     chown 1000:1000 /run/user/1000 && \
     chmod 0700 /run/user/1000
 
-ENV GOBIN=/home/coder/go/bin
 RUN mkdir -p /home/coder/git && \
     mkdir -p /home/coder/.cargo
 
