@@ -11,10 +11,9 @@ RUN zypper --non-interactive refresh && \
 		libxcb-cursor0 \
 		libxcb-util1 \
 		libxcb-keysyms1 \
-		libxcb-icccm4 \ 
+		libxcb-icccm4 \
 		libxcb-xfixes0 \
 		libxcb-xtest0 \
-		libxcb-util1 \
 		libxkbcommon0 \
 		libxdg-basedir1 \
 		xcb-util-xrm-devel \
