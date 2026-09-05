@@ -91,6 +91,11 @@ RUN . "$HOME/.nvm/nvm.sh" && \
 RUN curl -fsSL https://cursor.com/install | bash && \
     cursor-agent --version
 
+# renovate: datasource=github-releases depName=github/gh-stack
+ENV GH_STACK_VERSION=v0.1.1
+RUN gh extension install github/gh-stack --pin "${GH_STACK_VERSION}" && \
+    gh stack --version
+
 RUN mkdir /home/coder/.ssh
 COPY --chown=1000:1000 --chmod=700 known_hosts config /home/coder/.ssh/
 
