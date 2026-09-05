@@ -2,7 +2,8 @@ FROM ghcr.io/rancher/elemental-toolkit/elemental-cli:latest
 
 RUN zypper in -y \
         udisks2 \
-        qemu-tools
+        qemu-tools && \
+    zypper -n clean -a
 
 LABEL org.opencontainers.image.source="https://github.com/qubesome/workload-images" \
       org.opencontainers.image.ref.name="disk-tools" \

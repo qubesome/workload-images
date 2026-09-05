@@ -1,6 +1,6 @@
 FROM alpine:latest
 
-RUN apk add \
+RUN apk add --no-cache \
         openrc \
         util-linux \
         linux-virt \

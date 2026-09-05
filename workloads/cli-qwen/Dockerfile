@@ -35,7 +35,8 @@ USER coder
 ENV QWEN_VERSION=0.23.0
 RUN . "$HOME/.nvm/nvm.sh" && \
     npm install -g "@qwen-code/qwen-code@${QWEN_VERSION}" && \
-    qwen --version
+    qwen --version && \
+    npm cache clean --force
 
 ENV OLLAMA_MODEL="qwen3:8b"
 

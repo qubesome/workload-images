@@ -77,6 +77,7 @@ RUN curl -o- "https://raw.githubusercontent.com/nvm-sh/nvm/${NVM_VERSION}/instal
         nvm current && \
         ln -sfn "$(nvm which current | xargs dirname | xargs dirname)" "$HOME/.nvm/default" && \
         npm install -g @github/copilot @openai/codex && \
+        npm cache clean --force && \
         rm -rf /tmp/node-compile-cache
 
 ENV PATH="${PATH}:/home/coder/.nvm/default/bin"
@@ -85,7 +86,8 @@ ENV PATH="${PATH}:/home/coder/.nvm/default/bin"
 ENV CLAUDE_VERSION=2.1.250
 RUN . "$HOME/.nvm/nvm.sh" && \
     npm install -g "@anthropic-ai/claude-code@${CLAUDE_VERSION}" && \
-    claude --version
+    claude --version && \
+    npm cache clean --force
 
 # https://cursor.com/docs/cli/installation
 RUN curl -fsSL https://cursor.com/install | bash && \
