@@ -23,9 +23,10 @@ if [[ "${SSH_AGENT_PID}" =~ ^[0-9]+$ ]]; then
   export SSH_AGENT_PID
 fi
 
-if ! pgrep -x ollama > /dev/null; then
+# Only the server counts here, as a client command matches ollama just as well.
+if ! pgrep -f '(^|/)ollama serve( |$)' > /dev/null; then
   ollama serve > /tmp/ollama.log 2>&1 &
-fi;
+fi
 
 echo "# cli-qwen within qubesome profile ${QUBESOME_PROFILE}"
 echo "# serving ${OLLAMA_MODEL}, see /tmp/ollama.log for the device in use"
