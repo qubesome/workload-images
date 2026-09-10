@@ -9,7 +9,7 @@ RUN zypper -n refresh && \
                 git zsh wget tar gzip vim \
                 gh gh-zsh-completion \
                 yubikey-manager yubikey-personalization gnupg ykpers libyubikey0 pcsc-ccid pcsc-lite libpcsclite1 \
-                openssh \
+                openssh socat \
                 podman-remote \
                 neofetch neovim \
                 glibc-i18ndata glibc-locale && \
