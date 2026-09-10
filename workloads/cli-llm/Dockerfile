@@ -10,7 +10,7 @@ RUN zypper -n refresh && \
                 ripgrep \
                 gh gh-zsh-completion \
                 yubikey-manager yubikey-personalization gnupg ykpers libyubikey0 pcsc-ccid pcsc-lite libpcsclite1 \
-                openssh \
+                openssh socat \
                 make \
                 go1.26 go1.26-race \
                 podman-remote \
