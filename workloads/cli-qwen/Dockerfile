@@ -6,7 +6,7 @@ ARG REGISTRY=ghcr.io/qubesome
 FROM ${REGISTRY}/base:${TAG} AS ollama
 
 # renovate: datasource=github-releases depName=ollama/ollama
-ENV OLLAMA_VERSION=v0.33.3
+ENV OLLAMA_VERSION=v0.34.0
 ENV OLLAMA_URL="https://github.com/ollama/ollama/releases/download/${OLLAMA_VERSION}"
 
 WORKDIR /tmp
