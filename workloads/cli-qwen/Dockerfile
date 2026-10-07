@@ -32,7 +32,7 @@ RUN usermod -aG video,render coder && \
 USER coder
 
 # renovate: datasource=npm depName=@qwen-code/qwen-code
-ENV QWEN_VERSION=0.24.3
+ENV QWEN_VERSION=0.24.7
 RUN . "$HOME/.nvm/nvm.sh" && \
     npm install -g "@qwen-code/qwen-code@${QWEN_VERSION}" && \
     qwen --version && \
