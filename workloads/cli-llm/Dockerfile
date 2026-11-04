@@ -94,7 +94,7 @@ RUN curl -fsSL https://cursor.com/install | bash && \
     cursor-agent --version
 
 # renovate: datasource=github-releases depName=github/gh-stack
-ENV GH_STACK_VERSION=v0.1.1
+ENV GH_STACK_VERSION=v0.3.0
 RUN gh extension install github/gh-stack --pin "${GH_STACK_VERSION}" && \
     gh stack --version
 
